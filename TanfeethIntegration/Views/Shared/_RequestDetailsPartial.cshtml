@@ -1,0 +1,28 @@
+﻿@using System.Text
+@model TanfeethIntegration.DTOs.RequestModel
+
+<div style="background-color: white; padding: 10px; margin-bottom: 10px; overflow-x: auto; max-width: 100%;">
+    <div>
+        @if (!string.IsNullOrEmpty(Model.ExecutionClaim?.ExecutionClaimFile.Base64Content))
+        {
+            <h4>مرفق مستند طلب الاداء</h4>
+                @Html.Raw($"<embed src='data:application/pdf;base64,{Model.ExecutionClaim.ExecutionClaimFile.Base64Content}' type='application/pdf' width='800' height='400' />")
+            
+        }
+
+        @if (!string.IsNullOrEmpty(Model.ExecutionClaim?.ProofOfSubmitFile.Base64Content))
+        {
+                <!-- Add margin-top to separate the sections -->
+                <h4>مرفق مستند اثبات تسليم</h4>
+                @Html.Raw($"<embed src='data:application/pdf;base64,{Model.ExecutionClaim.ProofOfSubmitFile.Base64Content}' type='application/pdf' width='800' height='400' />")
+           
+        }
+        @if (!string.IsNullOrEmpty(Model.ExecutionClaim?.ProofOfSubmitFile.Base64Content))
+        {
+            <!-- Add margin-top to separate the sections -->
+            <h4>مرفق سند التنفيذ</h4>
+            @Html.Raw($"<embed src='data:application/pdf;base64,{Model.Enforcement.EnforcementFile.Base64Content}' type='application/pdf' width='800' height='400' />")
+
+        }
+    </div>
+</div>

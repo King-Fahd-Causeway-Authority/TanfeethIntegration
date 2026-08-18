@@ -1,0 +1,144 @@
+﻿@model TanfeethIntegration.Models.CharitableAssociationInfo
+
+@{
+    ViewData["Prefix"] = "CharitableAssociationInfo";
+
+    ViewData.TemplateInfo.HtmlFieldPrefix = "DefendantInformationModel.CharitableAssociationInfo";
+}
+@{
+    var requiredIndicator = "<span class='text-danger'>*</span>";
+
+}
+
+<script src="~/lib/jquery/dist/jquery-3.7.1.min.js"></script>
+<!-- Validation scripts -->
+<script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
+<div class="container-fluid" dir="rtl">
+
+    @Html.AntiForgeryToken()
+
+    <!-- License Number -->
+    <div class="row">
+        <!-- License Number -->
+        <div class="col-md-6 mb-3">
+            <div class="form-group">
+                <label class="control-label">
+                    رقم الرخصة @Html.Raw(requiredIndicator)
+                </label>
+                @Html.EditorFor(m => m.LicenseNumber, new { htmlAttributes = new { @class = "form-control rounded" } })
+                @Html.ValidationMessageFor(m => m.LicenseNumber, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <!-- Unified Number -->
+        <div class="col-md-6 mb-3">
+            <div class="form-group">
+                <label class="control-label">
+                    الرقم الموحد @Html.Raw(requiredIndicator)
+                </label>
+                @Html.EditorFor(m => m.UnifiedNumber, new { htmlAttributes = new { @class = "form-control rounded" } })
+                @Html.ValidationMessageFor(m => m.UnifiedNumber, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <!-- Association Name -->
+        <div class="col-md-6 mb-3">
+            <div class="form-group">
+                <label class="control-label">
+                    اسم الجمعية @Html.Raw(requiredIndicator)
+                </label>
+                @Html.EditorFor(m => m.Name, new { htmlAttributes = new { @class = "form-control rounded" } })
+                @Html.ValidationMessageFor(m => m.Name, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <!-- Phone Number -->
+        <div class="col-md-6 mb-3">
+            <div class="form-group">
+                <label class="control-label">
+                    رقم الهاتف @Html.Raw(requiredIndicator)
+                </label>
+                @Html.EditorFor(m => m.PhoneNumber, new { htmlAttributes = new { @class = "form-control rounded" } })
+                @Html.ValidationMessageFor(m => m.PhoneNumber, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <!-- Email -->
+        <div class="col-md-6 mb-3">
+            <div class="form-group">
+                <label class="control-label">
+                    البريد الالكتروني @Html.Raw(requiredIndicator)
+                </label>
+                @Html.EditorFor(m => m.Email, new { htmlAttributes = new { @class = "form-control rounded" } })
+                @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <!-- License Registration Date -->
+        <div class="col-md-6 mb-3">
+            <div class="form-group">
+                <label class="control-label">
+                    تاريخ تسجيل الرخصة @Html.Raw(requiredIndicator)
+                </label>
+                @Html.TextBoxFor(m => m.LicenseRegDate, new { @class = "form-control rounded", type = "date", placeholder = "mm/dd/yyyy" })
+                @Html.ValidationMessageFor(m => m.LicenseRegDate, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <!-- License Sources Dropdown -->
+        <div class="col-md-6 mb-3">
+            <div class="form-group">
+                <label class="control-label">
+                    مصدر الرخصة @Html.Raw(requiredIndicator)
+                </label>
+                @Html.DropDownListFor(
+                         m => m.LicenseSourceId,
+                         (IEnumerable<SelectListItem>)ViewData["LicenseSourceId"],
+                         "--- اختر مصدر الرخصة ---",
+                         new { @class = "form-control select2 rounded", id = "LicenseSourceSelect" }
+                         )
+                @Html.ValidationMessageFor(m => m.LicenseSourceId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+
+
+    <div class="row">
+        <!-- Company Headquarters Info -->
+        <div class="col-md-6 mb-3">
+            <div class="card">
+                <div class="card-header">
+                    بيانات مقر الجمعية
+                </div>
+                <div class="card-body">
+                    @Html.Partial("_CompanyHeadquartersInfo", Model.CompanyHeadquarters)
+                </div>
+            </div>
+        </div>
+
+        <!-- Founding Member Info -->
+        <div class="col-md-6 mb-3">
+            <div class="card">
+                <div class="card-header">
+                    بيانات صاحب المؤسسة
+                </div>
+                <div class="card-body">
+                    @Html.Partial("_IndividualInfo", Model.IndividualInfo)
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+</div>

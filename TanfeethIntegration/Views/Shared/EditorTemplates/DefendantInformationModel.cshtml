@@ -1,0 +1,79 @@
+﻿@model TanfeethIntegration.Models.DefendantInformationModel
+
+<!-- Include jQuery for convenience -->
+<script src="~/lib/jquery/dist/jquery-3.7.1.min.js"></script>
+
+<div class="form-group">
+    <label for="defendantTypeId">
+        <i class="fas fa-balance-scale"></i> نوع الجهة المنفذ ضدها :
+    </label>
+    <select id="defendantTypeId" name="DefendantTypeId" class="form-control select2">
+        <!-- Options will be populated here -->
+    </select>    
+        <!-- jQuery will populate this dropdown -->
+    
+</div>
+<br />
+
+<div id="defendantTypeContainer">
+
+    <!-- This container will be filled with the partial view based on the defendant type -->
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        var updateDefendantTypeView = function (defendantTypeId) {
+            // Use AJAX to get the partial view from the server
+            $.ajax({
+                url: '@Url.Action("GetDefendantTypePartialView", "LegalProceeding")',
+                data: { defendantTypeId: defendantTypeId },
+                success: function (response) {
+                    $('#defendantTypeContainer').html(response);
+                },
+                    error: function (xhr, status, error) {
+                    console.log('Error:', error);
+                    console.log('Status:', status);
+                    console.log('Response:', xhr.responseText);
+                }
+            });
+        };
+
+        var populateDefendantTypesDropdown = function () {
+            $.ajax({
+                url: '@Url.Action("GetDefendantTypes", "Lookup")',
+                success: function (data) {
+                   // console.log("Received data as JSON string:", JSON.stringify(data));
+
+                    var $defendantTypeDropdown = $('#defendantTypeId');
+                    $defendantTypeDropdown.empty();
+                    // Inside the success callback of populateDefendantTypesDropdown
+                    $.each(data, function (index, item) {
+                        var optionElement = $('<option></option>').val(item.id).text(item.nameAr);
+
+                        // Optional: setting Disabled and Selected if coming from server-side
+                        if (item.Disabled) {
+                            optionElement.prop('disabled', true);
+                        }
+                        if (item.Selected) {
+                            optionElement.prop('selected', true);
+                        }
+
+                        $defendantTypeDropdown.append(optionElement);
+                    });
+                },
+                error: function (xhr, status, error) {
+                    console.error('Error fetching defendant types:', status, error);
+                }
+            });
+        };
+        $('#defendantTypeId').change(function () {
+
+            var typeId = $(this).val();
+            //console.log("Selected defendantTypeId:", typeId); // Add this for debugging
+
+            updateDefendantTypeView(typeId);
+        });
+
+        populateDefendantTypesDropdown();
+    });
+</script>

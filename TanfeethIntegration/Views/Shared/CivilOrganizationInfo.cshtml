@@ -1,0 +1,127 @@
+﻿@model TanfeethIntegration.Models.CivilOrganizationInfo
+
+@{
+    ViewData["Prefix"] = "CivilOrganizationInfo";
+
+    ViewData.TemplateInfo.HtmlFieldPrefix = "DefendantInformationModel.CivilOrganizationInfo";
+}
+@{
+    var requiredIndicator = "<span class='text-danger'>*</span>";
+
+}
+
+<div class="container mt-3" dir="rtl">
+    <div class="row">
+        <!-- License Number -->
+        <div class="col-md-6 mb-3">
+            <div class="form-group">
+                <label class="control-label" for="LicenseNumber">
+                    رقم الرخصة @Html.Raw(requiredIndicator)
+                </label>
+                @Html.EditorFor(m => m.LicenseNumber, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(m => m.LicenseNumber, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <!-- Unified Number -->
+        <div class="col-md-6 mb-3">
+            <div class="form-group">
+                <label class="control-label" for="UnifiedNumber">
+                    الرقم الموحد @Html.Raw(requiredIndicator)
+                </label>
+                @Html.EditorFor(m => m.UnifiedNumber, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(m => m.UnifiedNumber, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <!-- Name -->
+        <div class="col-md-6 mb-3">
+            <div class="form-group">
+                <label class="control-label" for="Name">
+                    اسم المنظمة @Html.Raw(requiredIndicator)
+                </label>
+                @Html.EditorFor(m => m.Name, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(m => m.Name, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        
+        <!-- License Registration Date -->
+        <div class="col-md-6 mb-3">
+            <div class="form-group">
+                <label class="control-label" for="LicenseRegDate">
+                    تاريخ تسجيل الرخصة @Html.Raw(requiredIndicator)
+                </label>
+                @Html.EditorFor(m => m.LicenseRegDate, new { htmlAttributes = new { @class = "form-control", type = "date" } })
+                @Html.ValidationMessageFor(m => m.LicenseRegDate, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="col-md-6 mb-3">
+            <div class="form-group">
+                <label class="control-label">
+                    البريد الالكتروني @Html.Raw(requiredIndicator)
+                </label>
+                @Html.EditorFor(m => m.Email, new { htmlAttributes = new { @class = "form-control rounded" } })
+                @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6 mb-3">
+            <div class="form-group">
+                <label class="control-label">
+                    رقم الهاتف @Html.Raw(requiredIndicator)
+                </label>
+                @Html.EditorFor(m => m.PhoneNumber, new { htmlAttributes = new { @class = "form-control rounded" } })
+                @Html.ValidationMessageFor(m => m.PhoneNumber, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <!-- License Sources Dropdown -->
+        <div class="col-md-6 mb-3">
+            <div class="form-group">
+                <label for="SelectedLicenseSourceId" class="control-label">مصدر الرخصة @Html.Raw(requiredIndicator)</label>
+                @Html.DropDownListFor(
+                         m => m.LicenseSourceId,
+                         (IEnumerable<SelectListItem>)ViewData["LicenseSourceId"],
+                         "--- اختر مصدر الرخصة ---",
+                         new { @class = "form-control select2", id = "LicenseSourceSelect" }
+                         )
+
+                @Html.ValidationMessageFor(m => m.LicenseSourceId, "", new { @class = "text-danger" })
+
+
+              
+        </div>
+    </div>
+
+    <div class="row">
+        <!-- Company Headquarters Info -->
+        <div class="col-md-6 mb-3">
+            <div class="card">
+                <div class="card-header">
+                    بيانات مقر المؤسسة
+                </div>
+                <div class="card-body">
+                    @Html.Partial("_CompanyHeadquartersInfo", Model.CompanyHeadquarters)
+                </div>
+            </div>
+        </div>
+
+        <!-- Founding Member Info -->
+        <div class="col-md-6 mb-3">
+            <div class="card">
+                <div class="card-header">
+                    بيانات العضو المؤسس
+                </div>
+                <div class="card-body">
+                    @Html.Partial("_IndividualInfo", Model.FoundingMemberInfo)
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Submission Button -->
+</div>
+

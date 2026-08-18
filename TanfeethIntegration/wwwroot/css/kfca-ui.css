@@ -1,0 +1,52 @@
+
+:root{
+ --kfca-navy:#1A0C5F;--kfca-purple:#5E50A2;--kfca-purple-2:#6f37e8;--kfca-soft:#f5f7fb;
+ --kfca-border:#dfe5ee;--kfca-muted:#74788d;--kfca-danger:#ce1126;--kfca-success:#138a68;
+ --kfca-shadow:0 12px 34px rgba(26,12,95,.10);--kfca-radius:18px;
+}
+html{direction:rtl;background:var(--kfca-soft)}
+body{margin:0;background:var(--kfca-soft)!important;color:var(--kfca-navy);font-family:Tahoma,"Segoe UI",Arial,sans-serif!important;overflow-x:hidden}
+body,button,input,select,textarea,table{font-family:Tahoma,"Segoe UI",Arial,sans-serif!important}
+.kfca-shell{min-height:100vh;padding-right:82px}
+.kfca-topbar{height:122px;background:#fff;border-bottom:1px solid #e9edf4;display:flex;align-items:center;justify-content:space-between;padding:16px 36px;position:sticky;top:0;z-index:1020;box-shadow:0 3px 14px rgba(20,17,80,.035)}
+.kfca-brand{display:flex;align-items:center;gap:22px;min-width:0}
+.kfca-brand-logo{width:235px;max-height:86px;object-fit:contain;display:block}
+.kfca-brand-copy{text-align:right}.kfca-brand-copy h1{font-size:25px;font-weight:800;margin:0 0 4px;color:var(--kfca-navy)}
+.kfca-brand-copy p{margin:0;color:#7b7790;font-size:14px}.kfca-user{display:flex;align-items:center;gap:10px;color:var(--kfca-navy);font-weight:700;font-size:14px}
+.kfca-user-dot{width:34px;height:34px;border-radius:12px;background:#f0edff;display:grid;place-items:center;color:var(--kfca-purple)}
+.kfca-rail{position:fixed;right:0;top:0;bottom:0;width:82px;z-index:1030;background:linear-gradient(180deg,#211268 0%,#302080 42%,#5944a8 100%);display:flex;flex-direction:column;align-items:center;padding:18px 10px;gap:14px;box-shadow:-8px 0 28px rgba(25,12,95,.15)}
+.kfca-rail-spacer{height:4px}.kfca-rail-link,.kfca-rail button{width:60px;height:60px;border-radius:17px;border:0;background:rgba(255,255,255,.09);color:#fff!important;display:grid;place-items:center;text-decoration:none;transition:.2s;position:relative;cursor:pointer}
+.kfca-rail-link:hover,.kfca-rail button:hover{background:rgba(255,255,255,.18);transform:translateY(-1px)}
+.kfca-rail-link.active{background:#fff;color:var(--kfca-navy)!important;box-shadow:0 8px 24px rgba(0,0,0,.14)}
+.kfca-rail-link::after{content:attr(data-label);position:absolute;right:70px;white-space:nowrap;background:#17104d;color:#fff;border-radius:8px;padding:7px 10px;font-size:12px;opacity:0;pointer-events:none;transform:translateX(5px);transition:.18s}
+.kfca-rail-link:hover::after{opacity:1;transform:translateX(0)}
+.kfca-main{width:100%;padding:32px 36px 60px;max-width:1600px;margin:0 auto}
+.kfca-footer{text-align:center;color:#8b8da0;font-size:12px;padding:22px}
+#overlay{display:none;position:fixed;inset:0;background:rgba(12,8,55,.45);z-index:2000;backdrop-filter:blur(2px)}
+#customAlert{display:none;position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);width:min(92vw,460px);background:#fff;padding:26px;border:1px solid #ebe8f7;border-radius:18px;z-index:2001;box-shadow:0 30px 80px rgba(18,9,71,.28);text-align:center}
+#confirmBtn{border:0;border-radius:11px;padding:10px 28px;background:linear-gradient(100deg,var(--kfca-navy),var(--kfca-purple-2));color:#fff;font-weight:700}
+/* controls */
+.form-control,.form-select,select.form-control,input[type="text"],input[type="number"],input[type="date"],input[type="file"],input[type="email"],input[type="password"],textarea{width:100%!important;max-width:none!important;min-height:50px;border:1px solid #d8e0e9!important;border-radius:13px!important;background:#fbfcfe!important;color:var(--kfca-navy)!important;padding:10px 14px!important;box-shadow:none!important}
+.form-control:focus,.form-select:focus,select:focus,input:focus,textarea:focus{border-color:var(--kfca-purple)!important;box-shadow:0 0 0 4px rgba(94,80,162,.10)!important;outline:none!important;background:#fff!important}
+.select2-container{width:100%!important}.select2-container .select2-selection--single{height:50px!important;border:1px solid #d8e0e9!important;border-radius:13px!important;background:#fbfcfe!important}.select2-container--default .select2-selection--single .select2-selection__rendered{line-height:48px!important;padding-right:14px!important}.select2-container--default .select2-selection--single .select2-selection__arrow{height:48px!important}
+label,.control-label{color:var(--kfca-navy);font-weight:700;margin-bottom:7px}.text-danger{font-size:12px}.btn{border-radius:11px!important;font-weight:700!important;transition:.18s!important}.btn:hover{transform:translateY(-1px)!important}.btn-primary{background:linear-gradient(100deg,#39208f,#6533df)!important;border-color:transparent!important}.btn-danger{background:var(--kfca-danger)!important;border-color:var(--kfca-danger)!important}.btn-secondary{background:#777b8e!important;border-color:#777b8e!important}
+/* Legal proceeding */
+.page-hero{display:flex;align-items:center;justify-content:space-between;gap:18px;margin:2px 0 22px;padding:0 4px}.page-hero-title{display:flex;gap:14px;align-items:center}.page-hero-icon{width:58px;height:58px;border-radius:17px;background:linear-gradient(135deg,var(--kfca-navy),var(--kfca-purple));color:#fff;display:grid;place-items:center;box-shadow:0 10px 25px rgba(70,39,166,.22)}
+.page-hero h2{font-size:27px;font-weight:850;margin:0 0 3px;color:var(--kfca-navy)}.page-hero p{margin:0;color:var(--kfca-muted);font-size:13px}
+.kfca-progress{display:flex;direction:rtl;width:100%;margin:0 0 28px;border-radius:15px;overflow:visible;filter:drop-shadow(0 8px 15px rgba(46,31,113,.07))}
+.kfca-progress-step{position:relative;flex:1;min-height:82px;background:#ececf2;color:#6d6b7d;padding:15px 24px;display:flex;align-items:center;justify-content:center;gap:13px;text-align:right;border-left:4px solid #fff;transition:.2s;clip-path:polygon(0 0,94% 0,100% 50%,94% 100%,0 100%,6% 50%)}
+.kfca-progress-step:first-child{border-radius:0 14px 14px 0}.kfca-progress-step:last-child{border-radius:14px 0 0 14px}
+.kfca-progress-step.active{background:linear-gradient(100deg,#4320bd,#783bf2);color:#fff;box-shadow:0 10px 28px rgba(94,48,214,.2)}
+.kfca-progress-step.completed{background:#e5e3f0;color:#4d4770}.kfca-progress-icon{width:38px;height:38px;flex:0 0 38px;border-radius:50%;background:#fff;color:var(--kfca-purple);display:grid;place-items:center}.kfca-progress-step.active .kfca-progress-icon{background:rgba(255,255,255,.18);color:#fff}.kfca-progress-copy strong{display:block;font-size:17px;line-height:1.3}.kfca-progress-copy small{display:block;font-size:11px;opacity:.72;margin-top:3px}
+.form-container{width:100%!important;max-width:none!important;margin:0 auto 38px!important;padding:34px!important;background:#fff!important;border:1px solid #e6ebf1!important;border-radius:22px!important;box-shadow:var(--kfca-shadow)!important}
+.section{padding-bottom:82px!important}.section-navigation{padding-top:22px!important}.section-navigation .btn{min-width:128px!important;padding:11px 26px!important}
+#legal-representative-header{background:transparent!important;color:var(--kfca-navy)!important;text-shadow:none!important;border-bottom:2px solid var(--kfca-purple)!important;border-radius:0!important;padding:0 0 15px!important;text-align:right!important;font-size:22px!important}
+/* Requests dashboard */
+.dashboard-head{display:flex;align-items:end;justify-content:space-between;gap:20px;margin-bottom:22px}.dashboard-head h2{margin:0;color:var(--kfca-navy);font-size:27px;font-weight:850}.dashboard-head p{margin:5px 0 0;color:var(--kfca-muted)}
+.dashboard-card{background:#fff;border:1px solid #e5eaf1;border-radius:22px;box-shadow:var(--kfca-shadow);overflow:hidden}.dashboard-card-head{padding:19px 24px;border-bottom:1px solid #edf0f5;display:flex;align-items:center;justify-content:space-between}.dashboard-badge{background:#f0edff;color:var(--kfca-purple);border-radius:999px;padding:7px 12px;font-size:12px;font-weight:800}
+.kfca-table{margin:0!important}.kfca-table thead th{background:#f7f7fb!important;color:#504d65!important;font-weight:800!important;border:0!important;padding:15px!important;white-space:nowrap}.kfca-table tbody td{vertical-align:middle!important;text-align:center!important;padding:15px!important;border-color:#eef1f5!important;color:#35334a!important}.kfca-table tbody tr:hover{background:#fbfaff}.request-number{font-weight:850;color:var(--kfca-navy);direction:ltr;display:inline-block}.action-btn{display:inline-flex!important;align-items:center;justify-content:center;gap:7px;min-width:135px}
+#details-popup{display:none;position:fixed!important;inset:0!important;transform:none!important;background:rgba(15,10,58,.44)!important;padding:25px!important;border-radius:0!important;box-shadow:none!important;z-index:3000!important;align-items:center;justify-content:center;backdrop-filter:blur(3px)}#details-popup.is-open{display:flex!important}#details-popup .popup-card{width:min(92vw,920px);max-height:86vh;display:flex;flex-direction:column;background:#fff;border-radius:20px;overflow:hidden;box-shadow:0 30px 90px rgba(20,11,73,.27)}#popup-content{max-height:none!important;overflow:auto!important;padding:26px;flex:1}.popup-footer{border-top:1px solid #edf0f5;padding:14px 20px;background:#fafbfc;text-align:left}
+/* account/general tables */
+.table-responsive{border-radius:18px;background:#fff}.table thead th{background:#f6f5fb;color:var(--kfca-navy);border-color:#ececf2}.table tbody td{border-color:#eef0f4}.table{color:#37354b}
+@media(max-width:900px){.kfca-shell{padding-right:0;padding-bottom:76px}.kfca-rail{right:0;left:0;top:auto;width:auto;height:70px;bottom:0;flex-direction:row;justify-content:center;padding:7px;gap:9px}.kfca-rail-link,.kfca-rail button{width:52px;height:52px;border-radius:14px}.kfca-rail-link::after{display:none}.kfca-topbar{height:auto;min-height:96px;padding:12px 18px}.kfca-brand-logo{width:165px}.kfca-brand-copy h1{font-size:19px}.kfca-user span.user-name{display:none}.kfca-main{padding:22px 15px 40px}.kfca-progress{overflow-x:auto;gap:5px}.kfca-progress-step{min-width:210px;clip-path:none;border:0;border-radius:13px!important}.form-container{padding:20px!important}.page-hero h2{font-size:23px}}
+@media(max-width:560px){.kfca-brand-copy{display:none}.kfca-topbar{justify-content:center}.kfca-brand-logo{width:195px}.page-hero{align-items:flex-start}.page-hero-icon{width:48px;height:48px}.dashboard-head{align-items:flex-start;flex-direction:column}.action-btn{min-width:110px}}

@@ -1,0 +1,110 @@
+﻿@model TanfeethIntegration.Models.LegalProceedingRequest
+<style>
+    .switch {
+        position: relative;
+        display: inline-block;
+        width: 60px;
+        height: 34px;
+    }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+    .slider {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: #ccc;
+        -webkit-transition: .4s;
+        transition: .4s;
+    }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 26px;
+            width: 26px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            -webkit-transition: .4s;
+            transition: .4s;
+        }
+
+    input:checked + .slider {
+        background-color: #2196F3;
+    }
+
+    input:focus + .slider {
+        box-shadow: 0 0 1px #2196F3;
+    }
+
+    input:checked + .slider:before {
+        -webkit-transform: translateX(26px);
+        -ms-transform: translateX(26px);
+        transform: translateX(26px);
+    }
+
+    /* Rounded sliders */
+    .slider.round {
+        border-radius: 34px;
+    }
+
+        .slider.round:before {
+            border-radius: 50%;
+        }
+</style>
+
+
+<div class="form-group row">
+    <label asp-for="CourtId" class="col-sm-2 col-form-label">
+        <i class="fas fa-gavel"></i> المحكمة<span class="text-danger">*</span>
+    </label>
+    <div class="col-sm-10">
+        @Html.DropDownListFor(m => m.CourtId, (IEnumerable<SelectListItem>)ViewData["CourtId"], "--- اختر محكمة  ---", new { @class = "form-control select2", id = "courtSelect" })
+
+        @Html.ValidationMessageFor(m => m.CourtId, "", new { @class = "text-danger" })
+    </div>
+</div>
+
+@* <div class="form-group row">
+    <label asp-for="AgencyId" class="col-sm-2 col-form-label">
+        <i class="fas fa-building"></i> المؤسسة<span class="text-danger">*</span>
+    </label>
+    <div class="col-sm-10">
+        @Html.DropDownListFor(m => m.AgencyId, Model.AgencyOptions, "--- اختر مؤسسة ---", new { @class = "form-control select2", id = "agencySelect" })  
+        @Html.ValidationMessageFor(m => m.AgencyId, "", new { @class = "text-danger" })
+    </div>
+</div>
+ *@<br />
+<div class="form-group row">
+    <label asp-for="IsUrgent" class="col-sm-2 col-form-label">
+        <i class="fas fa-bolt"></i> هل هذا الإجراء عاجل؟
+    </label>    <div class="col-sm-10">
+        <label class="switch">
+            @Html.CheckBoxFor(m => m.IsUrgent, new { @class = "slider round", id = "isUrgentSwitch" })
+            <span class="slider round"></span>
+        </label>
+    </div>
+</div>
+<br />
+<br />
+<div class="row">
+    <div class="col-12">
+        <h4 class="text-center my-4" id="legal-representative-header" style="background-color:rgb(206, 17, 38); color: #ffffff;">
+            <i class="fas fa-balance-scale"></i> بيانات الممثل القانوني
+        </h4>
+    </div>
+</div>
+<div class="form-group row">
+@Html.EditorFor(m => m.LegalRepresentative)
+</div>
+
+
+

@@ -1,0 +1,11 @@
+DGA SANITIZATION SUMMARY
+========================
+- Database server/connection string: removed and replaced with placeholder.
+- Tanfeeth API base URL: removed and replaced with placeholder.
+- Gateway API key: removed and replaced with placeholder.
+- Application key: removed and replaced with placeholder.
+- Active Directory domain: removed and externalized to configuration.
+- Active Directory service account username/password: removed and externalized to configuration.
+- TLS certificate validation bypass: removed from DGA copy.
+- UI libraries/assets remain local in wwwroot for offline/internal server operation.
+- Business request models, DTO data types, request submission flow, and application authorization behavior were not intentionally redesigned by this sanitization pass.

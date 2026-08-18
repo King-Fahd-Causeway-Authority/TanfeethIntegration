@@ -1,0 +1,132 @@
+﻿@model TanfeethIntegration.Models.LegalRepresentative
+
+<style>
+    .rtl-layout {
+        direction: rtl;
+    }
+
+        .rtl-layout .form-control,
+        .rtl-layout .form-control[type="date"] {
+            text-align: right;
+        }
+</style>
+
+<div class="rtl-layout">
+    <div class="form-group row">
+        <label asp-for="AgencyId" class="col-sm-2 col-form-label">
+            <i class="fas fa-building"></i> اسم الجهة<span class="text-danger">*</span>
+        </label>
+       
+        <div class="col-sm-10">
+            @Html.DropDownListFor(m => m.AgencyId, (IEnumerable<SelectListItem>)ViewData["AgencyId"], "--- اختر الجهة ---", new { @class = "form-control select2", id = "agencySelect" })
+            @Html.ValidationMessageFor(m => m.AgencyId, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <!-- Identity Type -->
+    <div class="form-group">
+        <label asp-for="IdentityTypeId" class="col-sm-2 col-form-label">
+            <i class="fas fa-id-card"></i> نوع الهوية 
+        </label>
+       
+        @Html.DropDownListFor(m => m.IdentityTypeId, (IEnumerable<SelectListItem>)ViewData["IdentityTypeId"], "--- اختر نوع الهوية ---", new { @class = "form-control select2", id = "IdentityTypeSelect" })
+        @Html.ValidationMessageFor(m => m.IdentityTypeId, "", new { @class = "text-danger" })
+    </div>
+
+    <!-- Legal Representative Identity -->
+    <div class="form-group">
+        <label asp-for="LegalRepIdentity" class="col-sm-2 col-form-label">
+            <i class="fas fa-id-badge"></i> رقم هوية ممثل القانون <span class="text-danger">*</span>
+        </label>
+        @Html.TextBoxFor(m => m.LegalRepIdentity, new { @class = "form-control", placeholder = "أدخل رقم هوية ممثل القانون" }) <!-- Tooltip initialized -->
+        @Html.ValidationMessageFor(m => m.LegalRepIdentity, "", new { @class = "text-danger" })
+    </div>
+
+    <!-- Date of Birth (no required asterisk needed as it's not marked required) -->
+    <div class="form-group">
+        <label asp-for="DateOfBirth" class="col-sm-2 col-form-label">
+            <i class="fas fa-birthday-cake"></i> تاريخ الميلاد 
+        </label>
+        @Html.TextBoxFor(m => m.DateOfBirth, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date"}) <!-- Date input doesn't typically use a placeholder -->
+        @Html.ValidationMessageFor(m => m.DateOfBirth, "", new { @class = "text-danger" })
+    </div>
+
+    <!-- Name -->
+    <div class="form-group">
+        <label asp-for="Name" class="col-sm-2 col-form-label">
+            <i class="fas fa-user"></i> الاسم 
+        </label>
+        @Html.TextBoxFor(m => m.Name, new { @class = "form-control", placeholder = "أدخل الاسم" }) <!-- Tooltip initialized -->
+        @Html.ValidationMessageFor(m => m.Name, "", new { @class = "text-danger" })
+    </div>
+
+    <!-- Nationality (no required asterisk needed as it's not marked required) -->
+    <div class="form-group">
+        <label asp-for="Nationality" class="col-sm-2 col-form-label">
+            <i class="fas fa-flag"></i> الجنسية
+        </label>
+        @Html.TextBoxFor(m => m.Nationality, new { @class = "form-control", placeholder = "أدخل الجنسية"}) <!-- Tooltip initialized -->
+        @Html.ValidationMessageFor(m => m.Nationality, "", new { @class = "text-danger" })
+    </div>
+
+    <!-- Mobile Number -->
+    <div class="form-group">
+        <label asp-for="MobileNumber" class="col-sm-2 col-form-label">
+            <i class="fas fa-mobile-alt"></i> رقم الجوال 
+        </label>
+        <div class="input-group">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="basic-addon1">+966</span>
+            </div>
+            @Html.TextBoxFor(m => m.MobileNumber, new { @class = "form-control", placeholder = "أدخل رقم الجوال"}) <!-- Tooltip initialized -->
+        </div>
+        @Html.ValidationMessageFor(m => m.MobileNumber, "", new { @class = "text-danger" })
+    </div>
+
+    <!-- Email -->
+    <div class="form-group">
+        <label asp-for="Email" class="col-sm-2 col-form-label">
+            <i class="fas fa-envelope"></i> البريد الإلكتروني 
+        </label>
+        @Html.TextBoxFor(m => m.Email, new { @class = "form-control", placeholder = "example@example.com" }) <!-- Tooltip initialized -->
+        @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+    </div>
+
+    <!-- Deed Document Upload field -->
+    <div class="form-group">
+        <label asp-for="DeedDocumentFile" class="control-label">
+            <i class="fas fa-file-upload"></i> مرفق اثبات التمثيل 
+        </label>
+        <input asp-for="DeedDocumentFile" type="file" class="form-control"  />
+        <span asp-validation-for="DeedDocumentFile" class="text-danger"></span>
+    </div>
+
+    <!-- License Number (no required asterisk needed as it's not marked required) -->
+    <div class="form-group">
+        <label asp-for="LicenseNumber" class="control-label">
+            <i class="fas fa-gavel"></i> رقم رخصة المحاماة
+        </label>
+        <input asp-for="LicenseNumber" class="form-control"  />
+        <span asp-validation-for="LicenseNumber" class="text-danger"></span>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script>
+        $(document).ready(function () {
+            
+
+            // Custom validation for the DeedDocumentFile to check for PDF
+            $('#DeedDocumentFile').change(function () {
+                var extension = $(this).val().split('.').pop().toLowerCase();
+                if ($.inArray(extension, ['pdf']) == -1) {
+                    alert('Invalid file type, only PDF files are allowed!');
+                    $(this).val(''); // Clear the input.
+                }
+            });
+        });
+    </script>
+}

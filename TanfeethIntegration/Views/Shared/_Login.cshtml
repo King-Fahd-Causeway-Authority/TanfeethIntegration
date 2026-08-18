@@ -1,0 +1,72 @@
+﻿@model TanfeethIntegration.Models.LoginViewModel
+
+<div class="login-page d-flex align-items-center justify-content-center min-vh-100">
+    <div class="card shadow-lg p-4" style="width: 100%; max-width: 500px;">
+        <div class="form-header text-center mb-4">
+            <img src="~/images/log.jpg" alt="Logo" class="img-fluid mb-3">
+            <h2>تسجيل الدخول</h2>
+        </div>
+        <form asp-action="Login" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger mb-3" role="alert"></div>
+
+            <div class="form-group mb-4">
+                <label asp-for="Username" class="col-form-label">اسم المستخدم</label>
+                <input asp-for="Username" class="form-control" />
+                <span asp-validation-for="Username" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-4">
+                <label asp-for="Password" class="col-form-label"><i class="fas fa-lock"></i> كلمة المرور</label>
+                <input asp-for="Password" class="form-control" type="password" />
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+
+            <div class="form-group form-check mb-4">
+                <input asp-for="RememberMe" class="form-check-input" id="rememberMe" />
+                <label asp-for="RememberMe" class="form-check-label" for="rememberMe">تذكرني</label>
+            </div>
+
+            <div class="form-group text-center">
+                <button type="submit" class="btn btn-primary btn-block"><i class="fas fa-check"></i> تسجيل الدخول</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<style>
+    .login-page {
+        background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    }
+
+    .card {
+        background-color: #ffffff;
+        border: none;
+        border-radius: 15px;
+    }
+
+    .form-header img {
+        max-width: 150px;
+    }
+
+    .form-header h2 {
+        font-family: 'Cairo', sans-serif;
+        font-weight: bold;
+    }
+
+    .form-control {
+        border-radius: 10px;
+    }
+
+    .btn-primary {
+        background-color: #007bff;
+        border-color: #007bff;
+        border-radius: 50px;
+        padding: 10px 20px;
+        font-size: 1.2em;
+    }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+            border-color: #004085;
+        }
+</style>

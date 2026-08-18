@@ -1,0 +1,71 @@
+﻿<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>502 بوابة سيئة</title>
+    <style>
+        body, html {
+            height: 100%;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            direction: rtl;
+            background-color: #f8f9fa;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        .container {
+            max-width: 600px;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            border-radius: 8px;
+        }
+
+        .error-code {
+            font-size: 6rem;
+            font-weight: bold;
+            color: #dc3545;
+        }
+
+        .error-message {
+            font-size: 1.5rem;
+            color: #6c757d;
+            margin: 20px 0;
+        }
+
+        .description {
+            font-size: 1rem;
+            color: #6c757d;
+            margin-bottom: 20px;
+        }
+
+        .home-link {
+            display: inline-block;
+            padding: 10px 20px;
+            font-size: 1rem;
+            color: #fff;
+            background-color: #007bff;
+            border: none;
+            border-radius: 4px;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+        }
+
+            .home-link:hover {
+                background-color: #0056b3;
+            }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="error-code">502</div>
+        <div class="error-message">بوابة سيئة</div>
+        <p class="description">حدث خطأ في الخادم البوابة.</p>
+        <a href="/Tanfeeth/Home/Login" class="home-link">الذهاب إلى الصفحة الرئيسية</a>
+    </div>
+</body>
+</html>

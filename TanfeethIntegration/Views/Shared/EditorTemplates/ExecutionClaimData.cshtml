@@ -1,0 +1,48 @@
+@model TanfeethIntegration.Models.ExecutionClaimData
+
+<div class="form-group" dir="rtl">
+    <label asp-for="ExecutionClaimDate">
+        <i class="fa fa-calendar" aria-hidden="true"></i>
+
+        تاريخ المطالبة بالأداء <span class="text-danger">*</span>
+    </label>
+@*     <input asp-for="ExecutionClaimDate" class="form-control" />
+ *@   
+ @Html.TextBoxFor(m => m.ExecutionClaimDate, new { @class = "form-control", type = "date", placeholder = "mm/dd/yyyy" })
+    <span asp-validation-for="ExecutionClaimDate" class="text-danger"></span>
+</div>
+
+<div class="form-group" dir="rtl">
+    <label asp-for="ExecutionClaimResultId">
+        معرف نتيجة مطالبة التنفيذ <span class="text-danger">*</span>
+    </label>
+    <div class="col-sm-10">
+        @Html.DropDownListFor(m => m.ExecutionClaimResultId, (IEnumerable<SelectListItem>)ViewData["ExcutioncliamResultsId"], "--- نتيحة مطالبة التنفيذ ---", new { @class = "form-control select2", id = "ExcutioncliamResultsSelect" }
+                 )
+        @Html.ValidationMessageFor(m => m.ExecutionClaimResultId, "", new { @class = "text-danger" })
+    </div>    @* <span asp-validation-for="ExecutionClaimResultId" class="text-danger"></span> *@
+</div>
+
+<div class="form-group" dir="rtl">
+    <label asp-for="ExecutionClaimRequestNumber">
+         رقم طلب المطالبة بالاداء
+    </label>
+    <input asp-for="ExecutionClaimRequestNumber" class="form-control" />
+    <span asp-validation-for="ExecutionClaimRequestNumber" class="text-danger"></span>
+</div>
+
+<div class="form-group" dir="rtl">
+    <label asp-for="ExecutionClaimFile">
+        <i class="fas fa-file-upload"></i> مرفق مستند طلب الاداء<span class="text-danger">*</span>
+    </label>
+    <input type="file" asp-for="ExecutionClaimFile" id="fileInput" class="form-control" />
+    <span asp-validation-for="ExecutionClaimFile" class="text-danger"></span>
+</div>
+
+<div class="form-group" dir="rtl">
+    <label asp-for="ProofOfSubmitFile">
+        ملف إثبات التقديم <span class="text-danger">*</span>
+    </label>
+    <input type="file" asp-for="ProofOfSubmitFile" class="form-control" />
+    <span asp-validation-for="ProofOfSubmitFile" class="text-danger"></span>
+</div>

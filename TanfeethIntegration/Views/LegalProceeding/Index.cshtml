@@ -1,0 +1,508 @@
+@model TanfeethIntegration.Models.LegalProceedingViewModel
+
+@{
+    Layout = "_Layout";
+}
+<link href="~/css/select2.min.css" rel="stylesheet" />
+
+
+
+
+
+
+<!-- Add any stylesheets and meta tags required -->
+<style>
+    .rtl-layout {
+        direction: rtl;
+    }
+
+        .rtl-layout .form-control,
+        .rtl-layout .form-control[type="date"] {
+            text-align: right;
+        }
+
+    #submit-request-header {
+        color: white;
+        background-color: rgb(206, 17, 38);
+        border-radius: 20px;
+        padding: 20px;
+        display: inline-block;
+        min-width: 300px;
+    }
+
+    .form-container {
+        background-color: white;
+        padding: 20px;
+        margin: 40px auto;
+        width: 1300px;
+        max-width: 1300px;
+       
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        border: 1px solid #ddd;
+        border-radius: 8px;
+    }
+
+    .form-container {
+        height: auto; /* This makes the height adjust to the content */
+        /* other styles... */
+    }
+    #legal-representative-header {
+        background-color: rgb(206, 17, 38);
+        color: #ffffff;
+        padding: 1rem 0.75rem;
+        border-radius: 0.25rem;
+        text-shadow: 1px 1px 2px #000000;
+    }
+
+    
+
+    .btn {
+        margin: 0 10px;
+    }
+
+    .section {
+        position: relative; /* This ensures the .section-navigation is positioned relative to its section */
+        padding-bottom: 70px; /* Add padding to the bottom of each section to make room for navigation */
+    }
+
+    .section-navigation {
+        position: absolute;
+        bottom: 0; /* Position the navigation at the bottom of its section */
+        left: 0;
+        right: 0;
+        text-align: center;
+        transition: transform 0.2s ease-in-out;
+    }
+
+    .btn {
+        padding: 10px 30px; /* Padding for button size */
+        border: none; /* No border */
+        font-size: 1rem; /* Button text size */
+        color: white; /* Button text color */
+        border-radius: 5px; /* Rounded corners */
+        cursor: pointer; /* Pointer on hover */
+        transition: transform 0.2s ease-in; /* Animation for interaction */
+        margin: 5px; /* Space around buttons */
+    }
+
+        .btn:hover, .btn:focus {
+            outline: none; /* No focus outline */
+            transform: scale(1.1); /* Scaling effect on hover/focus */
+            background-color:darkcyan;
+        }
+
+    .btn-secondary {
+        background-color: #6c757d; /* Example secondary color */
+    }
+
+    .btn-primary {
+        background-color: rgb(206, 17, 38); /* Example primary color */
+    }
+
+    input[type="text"] {
+        border-radius: 15px;
+        padding: 10px;
+        /* Add more styles as needed */
+    }
+
+    /* Style for EditorFor (assuming it generates a textarea) */
+    textarea {
+        border-radius: 15px;
+        padding: 10px;
+        /* Add more styles as needed */
+    }
+</style>
+<div class="page-hero">
+    <div class="page-hero-title">
+        <span class="page-hero-icon"><i class="fas fa-paper-plane"></i></span>
+        <div><h2>تقديم طلب تنفيذ</h2><p>أكمل بيانات الطلب على أربع مراحل ثم راجع الطلب وأرسله</p></div>
+    </div>
+</div>
+<div class="kfca-progress" id="requestProgress" aria-label="مراحل تقديم الطلب">
+    <div class="kfca-progress-step active" data-step="0"><span class="kfca-progress-icon"><i class="fas fa-file-alt"></i></span><span class="kfca-progress-copy"><strong>بيانات الطلب</strong><small>تفاصيل طلب التنفيذ</small></span></div>
+    <div class="kfca-progress-step" data-step="1"><span class="kfca-progress-icon"><i class="fas fa-users"></i></span><span class="kfca-progress-copy"><strong>المنفذ ضده</strong><small>بيانات الأطراف</small></span></div>
+    <div class="kfca-progress-step" data-step="2"><span class="kfca-progress-icon"><i class="fas fa-money-bill-wave"></i></span><span class="kfca-progress-copy"><strong>المطالبة</strong><small>بيانات المطالبة</small></span></div>
+    <div class="kfca-progress-step" data-step="3"><span class="kfca-progress-icon"><i class="fas fa-gavel"></i></span><span class="kfca-progress-copy"><strong>السند والإرسال</strong><small>المراجعة النهائية</small></span></div>
+</div>
+<div class="form-container">
+    <div class="rtl-layout">
+        <form asp-controller="LegalProceeding" asp-action="Index" method="post" enctype="multipart/form-data">
+            @Html.AntiForgeryToken()
+
+            <!-- Legal Proceeding Section -->
+            <div class="section" id="legalProceedingSection">
+                @Html.EditorFor(m => m.LegalProceedingRequest)
+                <div class="section-navigation">
+                    <button type="button" class="btn btn-primary next">التالي</button>
+                <button type="button" class="btn btn-secondary back">الرجوع</button>
+                </div>
+            </div>
+
+            <!-- Defendant Information Section -->
+            <div class="section" id="defendantInformationSection" style="display:none;">
+                <h4 id="legal-representative-header" class="text-center my-4">
+                    <i class="fas fa-users"></i> بيانات المنفذ ضده
+                </h4>
+                <!-- Assume this select is populated with server-side logic -->
+                <select id="defendantTypeId" name="DefendantTypeId" class="form-control select2">
+                    <!-- Option elements here... -->
+                </select>
+
+                <div id="defendantTypeContainer">
+                    <!-- Container for dynamic content based on the defendant type -->
+                </div>
+                <div class="section-navigation">
+                    <button type="button" class="btn btn-primary next">التالي</button>
+                    <button type="button" class="btn btn-secondary back">الرجوع</button>
+                </div>
+            </div>
+            <!-- Execution Claim Section -->
+            <div class="section" id="executionClaimSection" style="display:none;">
+                <div class="row">
+                    <div class="col-12">
+                        <h4 class="text-center my-4" id="legal-representative-header" style="background-color:rgb(206, 17, 38); color: #ffffff;">
+                            <i class="fas fa-file-alt"></i> بيانات المطالبة بالأداء
+                        </h4>
+                    </div>
+                </div>              <!-- Populate this editor template with the relevant fields -->
+                @Html.EditorFor(m => m.ExecutionClaimData)
+                <div class="section-navigation">
+                    <button type="button" class="btn btn-primary next">التالي</button>
+                    <button type="button" class="btn btn-secondary back">الرجوع</button>
+                </div>
+            </div>
+
+            <!-- Additional sections would continue here... -->
+            <!-- Enforcement Information Section -->
+            <div class="section" id="enforcementInfoSection" style="display:none;">
+                <h4 id="legal-representative-header" class="text-center my-4">
+                    <i class="fas fa-file-alt"></i> بيانات السند التنفيذي
+                </h4>
+                @Html.EditorFor(model => model.EnforcementInfo)
+                <div class="section-navigation">
+                    <button type="submit" class="btn btn-primary next">انشاء الطلب</button>
+                    <button type="button" class="btn btn-secondary back">الرجوع</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+@*  @section Scripts {
+        <!-- Ensure jQuery validation is included for client-side validation -->
+        @Scripts.Render("~/bundles/jqueryval")
+    } *@
+
+
+
+@section Scripts {
+
+    
+
+    <!-- Validation scripts -->
+
+
+    <script src="~/js/select2.min.js"></script>
+<script type="text/javascript">
+        $(document).ready(function () {
+            
+            var currentSectionIndex = 0;
+            var sections = $('.section');
+            var form = $('form');
+
+            function showSection(index) {
+                sections.hide().eq(index).show();
+                $('#requestProgress .kfca-progress-step').each(function () {
+                    var step = Number($(this).data('step'));
+                    $(this).toggleClass('active', step === index);
+                    $(this).toggleClass('completed', step < index);
+                });
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+
+            function isSectionValid(index) {
+                var currentSection = sections.eq(index);
+                // Trigger jQuery Validate on the current section's inputs.
+                var valid = true;
+
+                // Only validate the inputs of the current section
+                currentSection.find(':input').each(function () {
+                    if (!$(this).valid()) {
+                        valid = false;
+                    }
+                });
+
+                if (valid) {
+                    currentSection.find('.field-validation-error').removeClass('field-validation-error');
+                }
+
+                return valid;
+            }
+
+            $('.next').click(function () {
+                if (isSectionValid(currentSectionIndex)) {
+                    currentSectionIndex++;
+                    showSection(currentSectionIndex);
+                } else {
+                    // Optionally scroll to the first error
+                    var firstError = sections.eq(currentSectionIndex).find('.field-validation-error').first();
+                    if (firstError.length > 0) {
+                        $('html, body').animate({
+                            scrollTop: firstError.offset().top - 20
+                        }, 300);
+                    }
+                }
+            });
+
+            $('.back').click(function () {
+                if (currentSectionIndex > 0) {
+                    currentSectionIndex--;
+                    showSection(currentSectionIndex);
+                }
+            });
+
+            // Show the initial section
+            showSection(currentSectionIndex);
+           
+                        $('form .form-control').each(function () {
+                            var messages = [];
+                            var element = $(this);
+                            $.each(element.data(), function (key, val) {
+                                if (key.indexOf("val") === 0 && key !== 'val') { // Check if the key starts with 'val'
+                                    messages.push(val);
+                                }
+                            });
+                            if (messages.length > 0) {
+                                element.attr('title', messages.join("\n"));
+                            }
+                        });
+
+                        // Bind the keyup and focusout events to perform validation and update tooltips
+                        $('form .form-control').on('keyup focusout', function () {
+                            var element = $(this);
+                            var isValid = element.valid();
+                            var messages = [];
+
+                            // If the field isn't valid, find all generated error messages and update the tooltip
+                            if (!isValid) {
+                                var name = element.attr('name');
+                                var container = $('span[data-valmsg-for="' + name + '"]');
+                                var errors = container.find('li, span');
+                                errors.each(function () {
+                                    messages.push($(this).text());
+                                });
+                                element.attr('title', messages.join("\n"));
+                            } else {
+                                element.attr('title', ""); // Clear the tooltip if valid
+                            }
+                        });
+                        //$.validator.unobtrusive.parse("#LicenseNumber");
+                        $(document).on('keypress', '#LicenseNumber', function (e) {
+                            var keyCode = e.which;
+
+                            //1. Allow: backspace, delete, tab, escape, and enter
+                            //2. Allow: Ctrl+A, Ctrl+C, Ctrl+V, Command+A
+                            //3. Allow: home, end, left, right, up, down
+                            //4. Allow only English letters and numbers, no spaces
+                            if (keyCode === 8 || keyCode === 9 || keyCode === 27 || keyCode === 13 ||
+                                (keyCode === 65 && e.ctrlKey === true) ||
+                                (keyCode === 67 && e.ctrlKey === true) ||
+                                (keyCode === 86 && e.ctrlKey === true) ||
+                                (keyCode === 65 && e.metaKey === true) ||
+                                (keyCode >= 35 && keyCode <= 40)) {
+                                // let it happen, don't do anything
+                                return;
+                            } else {
+                                if ((e.shiftKey || (keyCode < 48 || keyCode > 57)) && (keyCode < 65 || keyCode > 90) && (keyCode < 97 || keyCode > 122)) {
+                                    // Ensure that it is a number or an English letter and stop the keypress
+                                    e.preventDefault();
+                                }
+                            }
+                        });
+                    });
+
+    </script>
+    <script>
+        $(document).ready(function () {
+            // Initialize Select2 for CourtId dropdown
+            $('#courtSelect').select2({
+                dir: "rtl",
+                placeholder: "--- اختر محكمة ---",
+                language: {
+                    noResults: function () {
+                        return "لا توجد نتائج";
+                    }
+                }
+            });
+           
+            
+            $('#countrySelect').select2({
+                dir: "rtl",
+                placeholder: "--- اختر  ---",
+                language: {
+                    noResults: function () {
+                        return "لا توجد نتائج";
+                    }
+                }
+            });
+            $('#EnforcementSelect').select2({
+                dir: "rtl",
+                placeholder: "--- اختر مؤسسة ---",
+                language: {
+                    noResults: function () {
+                        return "لا توجد نتائج";
+                    }
+                }
+            });
+
+            // Initialize Select2 for AgencyId dropdown
+            $('#agencySelect').select2({
+                dir: "rtl",
+                placeholder: "--- اختر مؤسسة ---",
+                language: {
+                    noResults: function () {
+                        return "لا توجد نتائج";
+                    }
+                }
+            });
+            $('#IdentityTypeSelect').select2({
+                dir: "rtl",
+                placeholder: "--- اختر  نوع الهوية ---",
+                language: {
+                    noResults: function () {
+                        return "لا توجد نتائج";
+                    }
+                }
+            });
+            $('#citySelect').select2({
+                dir: "rtl",
+                placeholder: "---   المدينة اختر ---",
+                language: {
+                    noResults: function () {
+                        return "لا توجد نتائج";
+                    }
+                }
+            });
+            $('.select2').select2({
+                dir: "rtl",
+                placeholder: '--- اختر ---',
+                allowClear: true,
+                language: {
+                    noResults: function () {
+                        return "لا توجد نتائج";
+                    }
+                }
+            });
+
+
+            console.log('Document ready called.');
+
+            $("input[id*='_HasFinancialClaim']").change(function () {
+                console.log('Checkbox change event triggered.');
+
+                $('.financial-claim').toggle(this.checked);
+            });
+
+            // Trigger the change event on page load to set the initial state
+            $("input[id*='_HasFinancialClaim']").change();
+            console.log($("input[id*='_HasFinancialClaim']").length); // Should be 1
+
+
+        });
+    </script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var counter = 1;
+
+            // Function to add a new textbox
+            function addTextbox() {
+                if (counter < 30) {
+                    // Create new textbox element
+                    var newTextBoxDiv = $('<div class="mb-2"></div>');
+
+                    // Append the new textbox
+                    newTextBoxDiv.html('<input type="text" class="form-control" name="EnforcementItems[' + counter + ']" placeholder="عنصر التنفيذ" />');
+                    newTextBoxDiv.appendTo("#dynamicContainer");
+
+                    counter++;
+                }
+            }
+
+            // Attach click event to the button
+            $("#addTextbox").click(function () {
+                console.log("Button clicked, adding a textbox.");
+                addTextbox();
+            });
+            var updateDefendantTypeView = function (defendantTypeId) {
+               
+
+                // Use AJAX to get the partial view from the server
+                $.ajax({
+                    url: '@Url.Action("GetDefendantTypePartialView", "LegalProceeding")', // Make sure the URL is correct for your application
+                    data: { defendantTypeId: defendantTypeId },
+                    success: function (response) {
+                        $('#defendantTypeContainer').html(response);
+
+                    },
+                    error: function (xhr, status, error) {
+                        // console.error('Error:', error);
+                        // console.error('Status:', status);
+                        // console.error('Response:', xhr.responseText);
+                    }
+                });
+            };
+
+            var populateDefendantTypesDropdown = function () {
+                $.ajax({
+                    url: '@Url.Action("GetDefendantTypes", "Lookup")',
+                    success: function (data) {
+                        // console.log("Received data as JSON string:", JSON.stringify(data));
+
+                        var $defendantTypeDropdown = $('#defendantTypeId');
+                        $defendantTypeDropdown.empty();
+                        // Inside the success callback of populateDefendantTypesDropdown
+                        $.each(data, function (index, item) {
+                            var optionElement = $('<option></option>').val(item.id).text(item.nameAr);
+
+                            // Optional: setting Disabled and Selected if coming from server-side
+                            if (item.Disabled) {
+                                optionElement.prop('disabled', true);
+                            }
+                            if (item.Selected) {
+                                optionElement.prop('selected', true);
+                            }
+
+                            $defendantTypeDropdown.append(optionElement);
+                        });
+                    },
+                    error: function (xhr, status, error) {
+                        console.error('Error fetching defendant types:', status, error);
+                    }
+                });
+            };
+            $('#defendantTypeId').change(function () {
+
+                var typeId = $(this).val();
+                
+
+                updateDefendantTypeView(typeId);
+            });
+
+            populateDefendantTypesDropdown();
+
+            $('form').on('submit', function (e) {
+                // e.preventDefault(); // Only when debugging.
+                var serializedData = $(this).serialize();
+                e.currentTarget.submit(); // Submit the form programmatically when not debugging anymore.
+                console.log(serializedData);
+
+            });
+
+
+        });
+
+      
+    </script>
+
+
+}
+

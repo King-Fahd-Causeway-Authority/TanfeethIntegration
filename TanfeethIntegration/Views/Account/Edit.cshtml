@@ -1,0 +1,81 @@
+﻿@model TanfeethIntegration.Models.RegisterViewModel
+
+@{
+    ViewData["Title"] = "تعديل المستخدم";
+}
+
+<h2 class="text-center my-4">@ViewData["Title"]</h2>
+
+<form asp-action="Edit" method="post" id="edit-form" dir="rtl">
+    <div asp-validation-summary="All" class="text-danger mb-3"></div>
+    <div class="form-group">
+        <label asp-for="FullName" class="form-label">الاسم الكامل</label>
+        <input asp-for="FullName" class="form-control" />
+        <span asp-validation-for="FullName" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Username" class="form-label">اسم المستخدم</label>
+        <input asp-for="Username" class="form-control" />
+        <span asp-validation-for="Username" class="text-danger"></span>
+    </div>
+    <div class="form-group form-check">
+        <input asp-for="IsActive" class="form-check-input" type="checkbox" id="IsActive" />
+        <label asp-for="IsActive" class="form-check-label" for="IsActive">نشط</label>
+        <span asp-validation-for="IsActive" class="text-danger"></span>
+    </div>
+    <div class="form-group form-check">
+        <input asp-for="IsAdmin" class="form-check-input" type="checkbox" id="IsAdmin" />
+        <label asp-for="IsAdmin" class="form-check-label" for="IsAdmin">مدير نظام</label>
+        <span asp-validation-for="IsAdmin" class="text-danger"></span>
+        
+
+    </div>
+    <div class="form-group text-center">
+        <button style="direction:rtl !important" type="button" class="btn btn-primary" onclick="confirmEdit()">حفظ التعديلات</button>
+    </div>
+</form>
+
+<script>
+    function confirmEdit() {
+        swal({
+            title: "هل أنت متأكد؟",
+            text: "هل تريد حفظ التعديلات؟",
+            icon: "warning",
+            buttons: ["إلغاء", "حفظ"],
+            dangerMode: true,
+        }).then((willEdit) => {
+            if (willEdit) {
+                document.getElementById('edit-form').submit();
+            }
+        });
+    }
+</script>
+
+<style>
+    body {
+        direction: rtl;
+    }
+
+    .form-label {
+        margin-bottom: 5px;
+    }
+
+    .form-check {
+        margin-top: 15px;
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+    }
+
+    .form-check-input {
+        margin-right: 10px;
+    }
+
+    .form-check-label {
+        margin-right: 25px;
+    }
+
+    .btn {
+        margin-top: 20px;
+    }
+</style>

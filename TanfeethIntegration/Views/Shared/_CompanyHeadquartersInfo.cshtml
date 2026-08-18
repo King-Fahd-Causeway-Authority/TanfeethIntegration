@@ -1,0 +1,125 @@
+﻿@model TanfeethIntegration.Models.CompanyHeadquartersInfo
+
+@{
+    if (ViewData["Prefix"] as string == "RegisteredCompanyInfo")
+    {
+        ViewData.TemplateInfo.HtmlFieldPrefix = "DefendantInformationModel.RegisteredCompanyInfo.CompanyHeadquarters";
+    }
+    else if (ViewData["Prefix"] as string == "UnregisteredCompanyInfo")
+    {
+        ViewData.TemplateInfo.HtmlFieldPrefix = "DefendantInformationModel.UnregisteredCompanyInfo.Headquarters";
+    }
+    else if (ViewData["Prefix"] as string == "CharitableAssociationInfo")
+    {
+        ViewData.TemplateInfo.HtmlFieldPrefix = "DefendantInformationModel.CharitableAssociationInfo.CompanyHeadquarters";
+    }
+    else if (ViewData["Prefix"] as string == "CivilOrganizationInfo")
+    {
+        ViewData.TemplateInfo.HtmlFieldPrefix = "DefendantInformationModel.CivilOrganizationInfo.CompanyHeadquarters";
+    }
+    else if (ViewData["Prefix"] as string == "IndividualInfoType")
+    {
+        ViewData.TemplateInfo.HtmlFieldPrefix = "DefendantInformationModel.IndividualInfoType.CompanyHeadquarters";
+    }
+    else if (ViewData["Prefix"] as string == "EndowmentInfo")
+    {
+        ViewData.TemplateInfo.HtmlFieldPrefix = "DefendantInformationModel.EndowmentInfo.HeadquartersInfo";
+    }
+    // else if (ViewData["Prefix"] as string == "PrivateFoundationDefendantModel")
+    // {
+    //     ViewData.TemplateInfo.HtmlFieldPrefix = "DefendantInformationModel.PrivateFoundationDefendantModel.Headquarters";
+    // }
+}
+
+<div class="container-fluid" dir="rtl">
+    <!-- Enabling RTL support for Arabic -->
+
+    <div class="form-row">
+        <!-- Country ID: Assuming a dropdown list is provided -->
+        <div class="form-group col-md-6">
+            @Html.LabelFor(m => m.CountryId, "الدولة", new { @class = "control-label" })
+            <small class="text-danger ml-3">(اجباري عندي اختيار شركة غير مسجلة في الممكلة)</small>
+
+            @Html.DropDownListFor(
+                     m => m.CountryId,
+                     (IEnumerable<SelectListItem>)ViewData["CountryId"],
+                     "اختر الدولة",  // Placeholder text in Arabic
+                     new { @class = "form-control select2", id = "countrySelect" })
+            
+            @Html.ValidationMessageFor(m => m.CountryId, "", new { @class = "text-danger" })
+        </div>
+
+        <!-- City ID: Assuming a dropdown list is provided -->
+        <div class="form-group col-md-6">
+            @Html.LabelFor(m => m.CityId, "المدينة ", new { @class = "control-label" })
+            <small class="text-danger ml-3">(اجباري عندي اختيار شركة  مسجلة في الممكلة)</small>
+
+            <span class="text-danger">*</span>
+
+            @Html.DropDownListFor(
+                     m => m.CityId,
+                     (IEnumerable<SelectListItem>)ViewData["CityId"],
+                     "اختر المدينة",  // Placeholder text in Arabic
+                     new { @class = "form-control select2", id = "citySelect" })
+            @Html.ValidationMessageFor(m => m.CityId, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-row">
+        <div class="form-group col-md-6">
+            @Html.LabelFor(m => m.City, "المدينة", new { @class = "control-label" })
+            <small class="text-danger ml-3">(اجباري عندي اختيار شركة غير مسجلة في الممكلة)</small>
+            @Html.EditorFor(m => m.City, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(m => m.City, "", new { @class = "text-danger" })
+        </div>
+        <!-- District -->
+        <div class="form-group col-md-6">
+            @Html.LabelFor(m => m.District, "الحي", new { @class = "control-label" })
+            @Html.EditorFor(m => m.District, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(m => m.District, "", new { @class = "text-danger" })
+        </div>
+
+        <!-- Street -->
+        <div class="form-group col-md-6">
+            @Html.LabelFor(m => m.Street, "الشارع ", new { @class = "control-label" })
+            @Html.EditorFor(m => m.Street, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(m => m.Street, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-row">
+        <!-- Building Number -->
+        <div class="form-group col-md-4">
+            @Html.LabelFor(m => m.BuildingNumber, "رقم المبنى", new { @class = "control-label" })
+            @Html.EditorFor(m => m.BuildingNumber, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(m => m.BuildingNumber, "", new { @class = "text-danger" })
+        </div>
+
+        <!-- Post Code -->
+        <div class="form-group col-md-4">
+            @Html.LabelFor(m => m.PostCode, "الرمز البريدي", new { @class = "control-label" })
+            @Html.EditorFor(m => m.PostCode, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(m => m.PostCode, "", new { @class = "text-danger" })
+        </div>
+
+        <!-- Additional Number -->
+        <div class="form-group col-md-4">
+            @Html.LabelFor(m => m.AdditionalNumber, "الرقم الإضافي", new { @class = "control-label" })
+            @Html.EditorFor(m => m.AdditionalNumber, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(m => m.AdditionalNumber, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-row">
+        <!-- Extra Info -->
+        <div class="form-group col-md-12">
+            @Html.LabelFor(m => m.ExtraInfo, "معلومات إضافية", new { @class = "control-label" })
+            @Html.EditorFor(m => m.ExtraInfo, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(m => m.ExtraInfo, "", new { @class = "text-danger" })
+        </div>
+    </div>
+</div>
+
+
+
+

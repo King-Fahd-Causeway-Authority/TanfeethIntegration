@@ -1,0 +1,143 @@
+﻿@model TanfeethIntegration.Models.EnforcementInfo
+
+<div class="container-fluid" dir="rtl">
+    <div class="form-group">
+        <label class="control-label required-field">نوع التنفيذ</label>
+        @Html.DropDownListFor(
+                 m => m.EnforcementTypeId,
+                 ViewData["EnforcementTypeId"] as SelectList,
+                 "--- اختر نوع التنفيذ ---",
+                 new { @class = "form-control select2", id = "EnforcementSelect" }
+                 )        @Html.ValidationMessageFor(m => m.EnforcementTypeId, "", new { @class = "text-danger" })
+    </div>
+
+    <div class="form-group">
+        <label class="control-label required-field">رقم السند التنفيذي</label>
+        @Html.EditorFor(m => m.EnforcementNumber, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(m => m.EnforcementNumber, "", new { @class = "text-danger" })
+    </div>
+
+    <div class="form-group">
+        <label class="control-label required-field">تاريخ السند التنفيذي</label>
+        @Html.EditorFor(m => m.EnforcementDate, new { htmlAttributes = new { @class = "form-control", type = "date" } })
+        @Html.ValidationMessageFor(m => m.EnforcementDate, "", new { @class = "text-danger" })
+    </div>
+
+    <div class="form-group">
+        <label class="control-label required-field">مكان صدور السند التنفيذي</label>
+        @Html.EditorFor(m => m.EnforcementIssuePlace, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(m => m.EnforcementIssuePlace, "", new { @class = "text-danger" })
+    </div>
+
+    <div class="form-group">
+        <label class="control-label required-field">جهة الإصدار</label>
+        @Html.EditorFor(m => m.EnforcementIssuer, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(m => m.EnforcementIssuer, "", new { @class = "text-danger" })
+    </div>
+    <div class="form-group">
+        <label class="control-label required-field">
+            <i class="bi bi-file-earmark-pdf"></i> مرفق سند التنفيذ
+        </label>
+        @Html.TextBoxFor(m => m.EnforcementFile, new { type = "file", @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.EnforcementFile, "", new { @class = "text-danger" })
+    </div>
+
+    <div class="form-group">
+        <label>
+            <i class="bi bi-file-earmark-pdf-fill"></i> الملفات الإضافية
+        </label>
+        @Html.TextBoxFor(m => m.EnforcementExtraFiles, new { type = "file", multiple = "multiple", @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.EnforcementExtraFiles, "", new { @class = "text-danger" })
+    </div>
+
+    <div class="form-group">
+        <label class="control-label required-field">
+            <i class="bi bi-journal-text"></i> بيان منطوق السند
+        </label>
+        @Html.TextAreaFor(m => m.EnforcementStatement, new { @class = "form-control", rows = "5" })
+        @Html.ValidationMessageFor(m => m.EnforcementStatement, "", new { @class = "text-danger" })
+    </div>
+
+    <div class="form-group">
+        <label>
+            <i class="bi bi-list-task"></i> البنود التنفيذية الواردة في السند <span class="text-danger">*</span>
+        </label>
+
+        <div id="dynamicContainer">
+            @for (int i = 0; i < 1; i++)
+            {
+                <div class="mb-2">
+                    @Html.TextBoxFor(m => m.EnforcementItems[i], new { @class = "form-control", placeholder = "عنصر التنفيذ" })
+                </div>
+            }
+        </div>
+
+        <button type="button" id="addTextbox" class="btn btn-primary rounded-circle">
+            <i class="fa fa-plus"></i>
+        </button>
+    </div>
+    <br />
+
+    <div class="form-group">
+        <label class="control-label "> <i class="fas fa-hand-holding-usd"></i>هل  يتضمن السند مبالغ مالية؟<span></span>@Html.CheckBoxFor(m => m.HasFinancialClaim) </label>
+    </div>
+    <br />
+    @* Conditional fields for financial claim *@
+    <div class="financial-claim" style="display:none;">
+        <!-- Amount Claimed -->
+        <div class="form-group">
+            <label class="control-label required-field" for="EnforcementAmount">
+                <i class="fas fa-money-bill-wave"></i> قيمة مبلغ السند رقما
+            </label>
+            @Html.EditorFor(m => m.EnforcementAmount, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(m => m.EnforcementAmount, "", new { @class = "text-danger" })
+        </div>
+
+        <!-- Amount in Words -->
+        <div class="form-group">
+            <label class="control-label required-field" for="EnforcementAmountLetters">
+                <i class="fas fa-file-alt"></i> قيمة مبلغ السند كتابة
+            </label>
+            @Html.EditorFor(m => m.EnforcementAmountLetters, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(m => m.EnforcementAmountLetters, "", new { @class = "text-danger" })
+        </div>
+
+        <!-- IBAN -->
+        <div class="form-group">
+            <label class="control-label required-field" for="PlaintiffIBAN">
+                <i class="fas fa-university"></i>  رقم الحساب المصرفي لطالب التنفيذ
+            </label>
+            @Html.EditorFor(m => m.PlaintiffIBAN, new { htmlAttributes = new { @class = "form-control", placeholder = "SA00 0000 0000 0000 0000 0000" } })
+            @Html.ValidationMessageFor(m => m.PlaintiffIBAN, "", new { @class = "text-danger" })
+        </div>
+        
+    </div>
+
+<style>
+    .required-field::after {
+        content: " *";
+        color: red;
+    }
+
+    .required-field label::after {
+        content: " *";
+        color: red;
+    }
+
+        #addTextbox {
+            width: 50px; /* Set the width of the button */
+            height: 50px; /* Set the height of the button */
+            padding: 0; /* Reset padding */
+            border-radius: 50%; /* Make it circular */
+            display: flex; /* Use flexbox for alignment */
+            justify-content: center; /* Center horizontally */
+            align-items: center; /* Center vertically */
+            font-size: 20px; /* Adjust the icon size */
+        }
+</style>
+
+   
+
+
+    
+    

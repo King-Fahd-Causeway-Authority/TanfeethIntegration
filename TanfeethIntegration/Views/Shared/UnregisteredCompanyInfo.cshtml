@@ -1,0 +1,129 @@
+﻿@model TanfeethIntegration.Models.UnregisteredCompanyInfo
+
+@{
+    ViewData["Prefix"] = "UnregisteredCompanyInfo";
+
+    ViewData.TemplateInfo.HtmlFieldPrefix = "DefendantInformationModel.UnregisteredCompanyInfo";
+}
+
+<div class="container mt-3" dir="rtl">
+
+    <!-- Row for Company Name and CR Number -->
+    <div class="row">
+        <!-- Company Name -->
+        <div class="col-md-6">
+            <div class="form-group">
+                <label class="control-label">اسم الشركة</label>
+                <span class="text-danger">*</span>
+                @Html.EditorFor(m => m.CompanyName, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(m => m.CompanyName, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <!-- CR Number -->
+        <div class="col-md-6">
+            <div class="form-group">
+                <label class="control-label">رقم السجل التجاري</label>
+                @Html.EditorFor(m => m.CrNumber, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(m => m.CrNumber, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+
+    <!-- Row for CR Start Date and End Date -->
+    <div class="row">
+        <!-- CR Number Start Date -->
+        <div class="col-md-6">
+            <div class="form-group">
+                <label class="control-label">تاريخ بداية السجل التجاري</label>
+                @Html.TextBoxFor(m => m.CrNumberStartDate, new { @class = "form-control", type = "date", placeholder = "mm/dd/yyyy" })
+                @Html.ValidationMessageFor(m => m.CrNumberStartDate, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <!-- Email -->
+        <div class="col-md-6">
+            <div class="form-group">
+                <label class="control-label required-field">البريد الإلكتروني</label>
+                @Html.EditorFor(m => m.Email, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <!-- CR Number End Date -->
+        <div class="col-md-6">
+            <div class="form-group">
+                <label class="control-label">تاريخ نهاية السجل التجاري</label>
+                @Html.TextBoxFor(m => m.CrNumberEndDate, new { @class = "form-control", type = "date", placeholder = "mm/dd/yyyy" })
+                @Html.ValidationMessageFor(m => m.CrNumberEndDate, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+
+    <!-- Row for MISA License No, it's not mandatory thus no label update required -->
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label class="control-label">رقم ترخيص وزارة الاستثمار للشركة</label>
+                @Html.EditorFor(m => m.MISALicenseNo, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(m => m.MISALicenseNo, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <!-- Phone Number -->
+        <div class="col-md-6">
+            <div class="form-group">
+                <label class="control-label required-field">رقم الجوال</label>
+                @Html.EditorFor(m => m.PhoneNumber, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(m => m.PhoneNumber, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+
+    <br />
+    <!-- Side by Side Sections for Headquarters Information and Individual Details -->
+
+    <!-- Partial views for CompanyHeadquarters and ManagerInfo -->
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="card-title">بيانات مقر الشركة</h4>
+                </div>
+                <div class="card-body">
+                    @Html.Partial("_CompanyHeadquartersInfo", Model.Headquarters)
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="card-title">بيانات الوكيل</h4>
+                </div>
+                <div class="card-body">
+                    @Html.Partial("_IndividualInfo", Model.IndividualDetails)
+                </div>
+            </div>
+        </div>
+    </div>
+
+   
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('form .form-control').each(function () {
+            var messages = [];
+            var element = $(this);
+            $.each(element.data(), function (key, val) {
+                if (key.indexOf("val") === 0 && key !== 'val') { // Check if the key starts with 'val'
+                    messages.push(val);
+                }
+            });
+            if (messages.length > 0) {
+                element.attr('title', messages.join("\n"));
+            }
+        });
+    });
+
+</script>
+   

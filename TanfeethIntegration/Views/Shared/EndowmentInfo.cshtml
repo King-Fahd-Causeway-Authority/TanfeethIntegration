@@ -1,0 +1,121 @@
+﻿@model TanfeethIntegration.Models.EndowmentInfo
+
+@{
+    ViewData["Prefix"] = "EndowmentInfo";
+
+    ViewData.TemplateInfo.HtmlFieldPrefix = "DefendantInformationModel.EndowmentInfo";
+}
+@{
+    var requiredIndicator = "<span class='text-danger'>*</span>";
+}
+
+
+<div class="container-fluid my-4" dir="rtl">
+    <!-- Endowment Registration Number and Name -->
+    <div class="row">
+        <!-- Endowment Registration Number -->
+        <div class="col-md-6">
+            <div class="form-group">
+                <label class="control-label" for="EndowmentRegNumber">
+                    رقم تسجيل الوقف @Html.Raw(requiredIndicator)
+                </label>
+                @Html.EditorFor(m => m.EndowmentRegNumber, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(m => m.EndowmentRegNumber, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <!-- Endowment Name -->
+        <div class="col-md-6">
+            <div class="form-group">
+                <label class="control-label" for="Name">
+                    اسم الوقف @Html.Raw(requiredIndicator)
+                </label>
+                @Html.EditorFor(m => m.Name, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(m => m.Name, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+
+    <!-- Deed Number and Deed Registration Date -->
+    <div class="row">
+        <!-- Deed Number -->
+        <div class="col-md-6">
+            <div class="form-group">
+                <label class="control-label" for="DeedNumber">
+                    رقم الصك @Html.Raw(requiredIndicator)
+                </label>
+                @Html.EditorFor(m => m.DeedNumber, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(m => m.DeedNumber, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <!-- Deed Registration Date -->
+        <div class="col-md-6">
+            <div class="form-group">
+                <label class="control-label" for="DeedRegDate">
+                    تاريخ تسجيل الصك @Html.Raw(requiredIndicator)
+                </label>
+                @Html.TextBoxFor(m => m.DeedRegDate, new { @class = "form-control", type = "date", placeholder = "mm/dd/yyyy" })
+
+                @Html.ValidationMessageFor(m => m.DeedRegDate, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="form-group">
+                <label class="control-label" for="DeedRegDate">
+                    رقم الهاتف @Html.Raw(requiredIndicator)
+                </label>
+                @Html.EditorFor(m => m.PhoneNumber, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(m => m.PhoneNumber, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label class="control-label" for="DeedRegDate">
+                    البريد الالكتروني @Html.Raw(requiredIndicator)
+                </label>
+                @Html.EditorFor(m => m.Email, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    
+    </div>
+    <br />
+    <!-- Caretaker's Information Section and Endowment's Headquarters Information Section Side By Side -->
+    <div class="row">
+        <!-- Caretaker's Information Section -->
+           
+
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">
+                        بيانات مقر الوقف
+                    </div>
+                    <div class="card-body">
+                        @* Assume you have a partial view for HeadquartersInfo *@
+                        @Html.Partial("_CompanyHeadquartersInfo", Model.HeadquartersInfo)
+                    </div>
+                </div>
+            </div>
+        <div class="col-md-6">
+
+        <!-- Endowment's Headquarters Information Section -->
+        <div class="card">
+            <div class="card-header">
+                بيانات ناظر الوقف
+            </div>
+            <div class="card-body">
+                @* Assume you have a partial view for CaretakerInfo *@
+                @Html.Partial("_IndividualInfo", Model.CaretakerInfo)
+            </div>
+        </div>
+    </div>
+
+    
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

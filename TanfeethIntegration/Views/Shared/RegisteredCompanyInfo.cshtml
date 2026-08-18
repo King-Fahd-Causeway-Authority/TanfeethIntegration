@@ -1,0 +1,184 @@
+﻿@using TanfeethIntegration.Models
+@model RegisteredCompanyInfo
+@{
+    ViewData["Prefix"] = "RegisteredCompanyInfo"; 
+
+    ViewData.TemplateInfo.HtmlFieldPrefix = "DefendantInformationModel.RegisteredCompanyInfo";
+} 
+<div class="container-fluid" dir="rtl">
+    <!-- Enabling RTL support for Arabic -->
+
+    <div class="row">
+        <div class="col-md-6">
+            <!-- Commercial Registration Number -->
+            <div class="form-group">
+                @Html.LabelFor(m => m.CommercialRegistrationNumber, "رقم التسجيل التجاري", new { @class = "control-label" })
+                <small class="text-danger ml-3">(اجباري أو الرقم الوطني الموحد)</small>
+                <span class="text-danger">*</span>
+                @Html.EditorFor(m => m.CommercialRegistrationNumber, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(m => m.CommercialRegistrationNumber, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <!-- CR Number Start Date -->
+            <div class="form-group">
+                @Html.LabelFor(m => m.CrNumberStartDate, "تاريخ بدء رقم السجل التجاري", new { @class = "control-label" })
+                @Html.TextBoxFor(m => m.CrNumberStartDate, new { @class = "form-control", type = "date", placeholder = "mm/dd/yyyy" })
+                @Html.ValidationMessageFor(m => m.CrNumberStartDate, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
+            <!-- CR Number End Date -->
+            <div class="form-group">
+                @Html.LabelFor(m => m.CrNumberEndDate, "تاريخ انتهاء رقم السجل التجاري", new { @class = "control-label" })
+                @Html.TextBoxFor(m => m.CrNumberEndDate, new { @class = "form-control", type = "date", placeholder = "mm/dd/yyyy" })
+                @Html.ValidationMessageFor(m => m.CrNumberEndDate, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <!-- National Unified Number -->
+            <div class="form-group">
+                @Html.LabelFor(m => m.NationalUnifiedNumber, "الرقم الوطني الموحد", new { @class = "control-label" })
+                <span class="text-danger">*</span>
+                <small class="text-danger ml-3">(اجباري أو رقم التسجيل التجاري)</small>
+                @Html.EditorFor(m => m.NationalUnifiedNumber, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(m => m.NationalUnifiedNumber, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
+            <!-- Phone Number -->
+            <div class="form-group">
+                <label class="control-label required-field">رقم الجوال</label>
+                @Html.EditorFor(m => m.PhoneNumber, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(m => m.PhoneNumber, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <!-- Email -->
+            <div class="form-group">
+                <label class="control-label required-field">البريد الإلكتروني</label>
+                @Html.EditorFor(m => m.Email, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <!-- Company Name -->
+            <div class="form-group">
+                @Html.LabelFor(m => m.CompanyName, "اسم الشركة", new { @class = "control-label" })
+                <span class="text-danger">*</span>
+                @Html.EditorFor(m => m.CompanyName, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(m => m.CompanyName, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+<br />
+
+    <!-- Partial views for CompanyHeadquarters and ManagerInfo -->
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="card-title">معلومات المقر الرئيسي للشركة</h4>
+                </div>
+                <div class="card-body">
+                    @* 
+                        @{
+                        ViewData.TemplateInfo.HtmlFieldPrefix = "DefendantInformationModel.RegisteredCompanyInfo._CompanyHeadquartersInfo";
+                        } *@
+                    
+                    @Html.Partial("_CompanyHeadquartersInfo", Model.CompanyHeadquarters)
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="card-title">معلومات ممثل الشركة</h4>
+                </div>
+                <div class="card-body">
+                     @*  @{
+                        ViewData.TemplateInfo.HtmlFieldPrefix = "DefendantInformationModel.RegisteredCompanyInfo._IndividualInfo";
+                    } *@
+                   @Html.Partial("_IndividualInfo", Model.ManagerInfo)
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add more rows and column divs for additional properties as needed -->
+</div>
+
+@section Scripts {
+    @* Include any additional scripts needed for date pickers, validation etc. *@
+}
+<script type="text/javascript">
+    // Custom client-side validation logic
+    jQuery(document).ready(function ($) {
+
+        // Custom method to check that at least one of the specified fields is not empty
+        $.validator.addMethod('require_from_group', function (value, element, options) {
+            var $fields = $(options[1], element.form),
+                $fieldsFirst = $fields.eq(0),
+                validator = $fieldsFirst.data('valid_req_grp') ? $fieldsFirst.data('valid_req_grp') : $.extend({}, this),
+                isValid = $fields.filter(function () {
+                    return validator.elementValue(this);
+                }).length >= options[0];
+
+            // Store the cloned validator for future validation
+            $fieldsFirst.data('valid_req_grp', validator);
+
+            // If element isn't being validated, run each require_from_group field's validation rules
+            if (!$(element).data('being_validated')) {
+                $fields.data('being_validated', true);
+                $fields.each(function () {
+                    validator.element(this);
+                });
+                $fields.data('being_validated', false);
+            }
+            return isValid;
+        }, $.validator.format("Please fill at least {0} of these fields."));
+
+        // Add unobtrusive adapters for custom method
+        $.validator.unobtrusive.adapters.add('require_from_group', ['min', 'selectors'], function (options) {
+            options.rules['require_from_group'] = [options.params.min, options.params.selectors];
+            options.messages['require_from_group'] = options.message;
+        });
+
+        // Initialize the custom validation on the form's fields
+        var selectors = ['#CommercialRegistrationNumber', '#NationalUnifiedNumber'].join(',');
+        $(selectors).each(function () {
+            $(this).rules('add', {
+                require_from_group: [1, selectors]
+            });
+        });
+    });
+</script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('form .form-control').each(function () {
+            var messages = [];
+            var element = $(this);
+            $.each(element.data(), function (key, val) {
+                if (key.indexOf("val") === 0 && key !== 'val') { // Check if the key starts with 'val'
+                    messages.push(val);
+                }
+            });
+            if (messages.length > 0) {
+                element.attr('title', messages.join("\n"));
+            }
+        });
+    });
+
+</script>

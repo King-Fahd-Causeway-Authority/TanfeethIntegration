@@ -1,0 +1,41 @@
+﻿@model TanfeethIntegration.Models.AdministrativeAgencyInformation
+@{
+    ViewData["Prefix"] = "AdministrativeAgencyInformation";
+
+    ViewData.TemplateInfo.HtmlFieldPrefix = "DefendantInformationModel.AdministrativeAgencyInformation";
+}
+
+@{
+    var requiredIndicator = "<span class='text-danger'>*</span>";
+}
+<div class="container-fluid">
+    
+        @Html.AntiForgeryToken()
+
+        <!-- Details for the Agency Id -->
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h4 class="card-title"> <span class="text-danger"></span></h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="form-group">
+                        <label class="control-label" for="LicenseNumber">
+                            رقم الجهة الإدارية المنفذ ضدها  @Html.Raw(requiredIndicator)
+                        </label>
+                        @Html.DropDownListFor(m => m.AgencyId, Model.Agencies, "--- اختر الجهة ---", new { @class = "form-control" })
+
+                     
+                        @Html.ValidationMessageFor(model => model.AgencyId, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Partial View for CompanyHeadquartersInfo -->
+      
+        
+    
+</div>

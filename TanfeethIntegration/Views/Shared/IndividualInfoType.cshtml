@@ -1,0 +1,36 @@
+﻿@model TanfeethIntegration.Models.IndividualInfoType
+@{
+    ViewData["Prefix"] = "IndividualInfoType";
+
+    ViewData.TemplateInfo.HtmlFieldPrefix = "DefendantInformationModel.IndividualInfoType";
+}
+<div class="container-fluid">
+  
+        @Html.AntiForgeryToken()
+
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h4 class="card-title">بيانات المقر</h4>
+                    </div>
+                    <div class="card-body">
+                        @Html.Partial("_CompanyHeadquartersInfo", Model.CompanyHeadquarters)
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h4 class="card-title">بيانات الفرد</h4>
+                    </div>
+                    <div class="card-body">
+                        @Html.Partial("_IndividualInfo", Model.IndividualInfo)
+                    </div>
+                </div>
+            </div>
+        </div>
+
+       
+    
+</div>

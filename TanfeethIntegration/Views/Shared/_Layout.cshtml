@@ -1,0 +1,118 @@
+@inject UserService UserService
+@using System.Security.Claims
+@using TanfeethIntegration.Models
+@{
+    var currentUser = await UserService.GetCurrentUserAsync(User);
+    var controller = ViewContext.RouteData.Values["controller"]?.ToString();
+    var action = ViewContext.RouteData.Values["action"]?.ToString();
+}
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate, max-age=0" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+    <title>@ViewData["Title"] - منصة الربط مع تنفيذ</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/kfca-icons.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/kfca-ui.css" asp-append-version="true" />
+</head>
+<body>
+    <div id="overlay"></div>
+    <div id="customAlert">
+        <div class="mb-3"><i class="fas fa-info-circle" style="font-size:30px;color:#5E50A2"></i></div>
+        <p>جلستك على وشك الانتهاء. اضغط موافق لتمديد جلستك.</p>
+        <button id="confirmBtn" type="button">موافق</button>
+    </div>
+
+    <aside class="kfca-rail" aria-label="التنقل الرئيسي">
+        <div class="kfca-rail-spacer"></div>
+        @if (User.Identity?.IsAuthenticated == true)
+        {
+            <a class="kfca-rail-link @(controller == "LegalProceeding" ? "active" : "")" asp-controller="LegalProceeding" asp-action="Index" data-label="إضافة طلب" title="إضافة طلب">
+                <i class="fas fa-plus"></i>
+            </a>
+            <a class="kfca-rail-link @(controller == "Requests" ? "active" : "")" asp-controller="Requests" asp-action="Index" data-label="الطلبات" title="الطلبات">
+                <i class="fas fa-list"></i>
+            </a>
+            @if (currentUser != null && currentUser.IsAdmin)
+            {
+                <a class="kfca-rail-link @(controller == "Account" ? "active" : "")" asp-controller="Account" asp-action="Index" data-label="إدارة المستخدمين" title="إدارة المستخدمين">
+                    <i class="fas fa-users-cog"></i>
+                </a>
+            }
+            <form asp-controller="Account" asp-action="Logout" method="post" class="mt-auto">
+                @Html.AntiForgeryToken()
+                <button type="submit" title="تسجيل الخروج"><i class="fas fa-lock"></i></button>
+            </form>
+        }
+    </aside>
+
+    <div class="kfca-shell">
+        <header class="kfca-topbar">
+            <div class="kfca-brand">
+                <div class="kfca-brand-copy">
+                    <h1>منصة الربط مع تنفيذ</h1>
+                    <p>المؤسسة العامة لجسر الملك فهد</p>
+                </div>
+                @if (User.Identity?.IsAuthenticated == true)
+                {
+                    <div class="kfca-user">
+                        <span class="kfca-user-dot"><i class="fas fa-user"></i></span>
+                        <span class="user-name">مرحباً، @User.Identity.Name</span>
+                    </div>
+                }
+            </div>
+            <a asp-controller="LegalProceeding" asp-action="Index" aria-label="الرئيسية">
+                <img src="~/Images/Log.jpg" alt="المؤسسة العامة لجسر الملك فهد" class="kfca-brand-logo" />
+            </a>
+        </header>
+
+        <main class="kfca-main" role="main">
+            @RenderBody()
+        </main>
+        <footer class="kfca-footer">المؤسسة العامة لجسر الملك فهد - منصة الربط مع تنفيذ</footer>
+    </div>
+
+    <script src="~/lib/jquery/dist/jquery-3.7.1.min.js"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/sweetalert.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            var sessionTimeout = 20 * 60 * 1000;
+            var alertTime = sessionTimeout - 1 * 60 * 1000;
+            var alertDuration = 1 * 60 * 1000;
+            var logoutTimer, alertTimer;
+            function getFullUrl(relativeUrl) {
+                var path = window.location.pathname;
+                var first = path.indexOf('/', 1);
+                var basePath = first > 0 ? path.substring(0, first) : '';
+                return window.location.origin + basePath + relativeUrl;
+            }
+            function logout(){ window.location.href = getFullUrl('/Home/Login'); }
+            function showAlertAndLogout(){
+                var alertBox=document.getElementById('customAlert'), overlay=document.getElementById('overlay');
+                if(!alertBox || !overlay) return;
+                alertBox.style.display='block'; overlay.style.display='block';
+                var alertTimeout=setTimeout(function(){ if(alertBox.style.display==='block') logout(); },alertDuration);
+                document.getElementById('confirmBtn').onclick=function(){ clearTimeout(alertTimeout); extendSession(); };
+            }
+            function extendSession(){
+                fetch(getFullUrl('/Home/KeepAlive'),{method:'POST'})
+                  .then(function(r){ if(r.ok) resetTimers(); else logout(); }).catch(logout);
+                document.getElementById('customAlert').style.display='none';
+                document.getElementById('overlay').style.display='none';
+            }
+            function resetTimers(){ clearTimeout(logoutTimer);clearTimeout(alertTimer);logoutTimer=setTimeout(logout,sessionTimeout);alertTimer=setTimeout(showAlertAndLogout,alertTime); }
+            resetTimers();
+        });
+    </script>
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

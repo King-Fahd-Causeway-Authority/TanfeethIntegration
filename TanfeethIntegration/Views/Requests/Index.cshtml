@@ -1,0 +1,55 @@
+@{
+    Layout = "_Layout";
+    ViewData["Title"] = "طلبات التنفيذ";
+}
+<div class="dashboard-head">
+    <div>
+        <h2>طلبات التنفيذ</h2>
+        <p>متابعة الطلبات المرسلة، عرض التفاصيل وحالة المعالجة.</p>
+    </div>
+    <a asp-controller="LegalProceeding" asp-action="Index" class="btn btn-primary"><i class="fas fa-plus"></i> طلب جديد</a>
+</div>
+<div class="dashboard-card">
+    <div class="dashboard-card-head">
+        <strong>قائمة الطلبات</strong>
+        <span class="dashboard-badge" id="requestCountBadge">الطلبات</span>
+    </div>
+    <div class="table-responsive">
+        <table class="table kfca-table">
+            <thead>
+                <tr><th>رقم الطلب</th><th>تفاصيل الطلب</th><th>حالة الطلب</th></tr>
+            </thead>
+            <tbody id="requestsBody">
+                @foreach (var requestNumber in Model)
+                {
+                    <tr>
+                        <td><span class="request-number">@requestNumber</span></td>
+                        <td><button type="button" class="btn btn-primary action-btn show-details-btn" data-request-number="@requestNumber"><i class="fas fa-info-circle"></i> عرض التفاصيل</button></td>
+                        <td><button type="button" class="btn btn-outline-primary action-btn show-status-btn" data-request-number="@requestNumber"><i class="fas fa-check-circle"></i> حالة الطلب</button></td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+<div id="details-popup" role="dialog" aria-modal="true" aria-label="تفاصيل الطلب">
+    <div class="popup-card">
+        <div id="popup-content"></div>
+        <div class="popup-footer"><button class="btn btn-secondary" id="close-popup" type="button">إغلاق</button></div>
+    </div>
+</div>
+@section Scripts {
+<script>
+$(function(){
+    $('#requestCountBadge').text($('#requestsBody tr').length + ' طلب');
+    function openPopup(){ $('#details-popup').addClass('is-open'); }
+    function load(url, requestNumber){
+        $('#popup-content').html('<div class="text-center py-5">جاري التحميل...</div>'); openPopup();
+        $.ajax({url:url,data:{requestNumber:requestNumber},success:function(data){$('#popup-content').html(data);},error:function(){$('#popup-content').html('<div class="alert alert-danger">تعذر تحميل البيانات، يرجى المحاولة مرة أخرى.</div>');}});
+    }
+    $('.show-details-btn').on('click',function(){load('@Url.Action("GetRequestDetails", "Requests")',$(this).data('request-number'));});
+    $('.show-status-btn').on('click',function(){load('@Url.Action("GetStatus", "Requests")',$(this).data('request-number'));});
+    $('#close-popup,#details-popup').on('click',function(e){if(e.target===this) $('#details-popup').removeClass('is-open');});
+});
+</script>
+}

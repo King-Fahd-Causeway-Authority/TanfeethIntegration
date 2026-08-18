@@ -1,0 +1,189 @@
+﻿@model TanfeethIntegration.Models.IndividualInfo
+
+@{
+    if (ViewData["Prefix"] as string == "RegisteredCompanyInfo")
+    {
+        ViewData.TemplateInfo.HtmlFieldPrefix = "DefendantInformationModel.RegisteredCompanyInfo.ManagerInfo";
+    }
+    else if (ViewData["Prefix"] as string == "UnregisteredCompanyInfo")
+    {
+        ViewData.TemplateInfo.HtmlFieldPrefix = "DefendantInformationModel.UnregisteredCompanyInfo.IndividualDetails";
+    }
+    else if (ViewData["Prefix"] as string == "CharitableAssociationInfo")
+    {
+        ViewData.TemplateInfo.HtmlFieldPrefix = "DefendantInformationModel.CharitableAssociationInfo.IndividualInfo";
+    }
+    else if (ViewData["Prefix"] as string == "CivilOrganizationInfo")
+    {
+        ViewData.TemplateInfo.HtmlFieldPrefix = "DefendantInformationModel.CivilOrganizationInfo.FoundingMemberInfo";
+    }
+    else if (ViewData["Prefix"] as string == "IndividualInfoType")
+    {
+        ViewData.TemplateInfo.HtmlFieldPrefix = "DefendantInformationModel.IndividualInfoType.IndividualInfo";
+    }
+    else if (ViewData["Prefix"] as string == "EndowmentInfo")
+    {
+        ViewData.TemplateInfo.HtmlFieldPrefix = "DefendantInformationModel.EndowmentInfo.CaretakerInfo";
+    }
+    // else if (ViewData["Prefix"] as string == "PrivateFoundationDefendantModel")
+    // {
+    //     ViewData.TemplateInfo.HtmlFieldPrefix = "DefendantInformationModel.PrivateFoundationDefendantModel.FoundingMemberDetails";
+    // }
+}
+
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+<script src="~/lib/jquery/dist/jquery-3.7.1.min.js"></script>
+<!-- Validation scripts -->
+<script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
+<div class="container-fluid" dir="rtl">
+    <div class="form-row">
+        <div class="form-group col-md-6">
+            <label class="control-label required-field">نوع الهوية</label>
+            @Html.DropDownListFor(m => m.IdentityTypeId, (IEnumerable<SelectListItem>)ViewData["IdentityTypeId"], "--- اختر نوع الهوية ---", new { @class = "form-control select2", id = "IdentityTypeSelect" })
+            @Html.ValidationMessageFor(m => m.IdentityTypeId, "", new { @class = "text-danger" })
+        </div>
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <!-- Other form elements -->
+            </div>
+            <div class="form-group col-md-6">
+                @Html.LabelFor(m => m.NationalityId, "الجنسية", new { @class = "control-label" })
+                <small class="text-danger ml-3">(اجباري للزائر او الخليجي)</small>
+
+                @Html.DropDownListFor(
+                         m => m.NationalityId,
+                         (IEnumerable<SelectListItem>)ViewData["CountryId"],
+                         "اختر الجنسية",  // Placeholder text in Arabic
+                         new { @class = "form-control select2", id = "countrySelect" })
+
+                @Html.ValidationMessageFor(m => m.NationalityId, "", new { @class = "text-danger" })
+            </div>
+            <div class="form-group col-md-6">
+                <label class="control-label ">رمز الجنسية لدى أبشر</label>
+                <!-- Apply the 'small' class for smaller font size -->
+                <small class="text-danger ml-3">(اجباري للزائر او الخليجي)</small>
+                @Html.EditorFor(m => m.AbsherNationalityCode, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(m => m.AbsherNationalityCode, "", new { @class = "text-danger" })
+            </div>        
+            <div class="form-row">
+        <div class="form-group col-md-6">
+                    <label class="control-label required-field">تاريخ الميلاد</label>
+            @Html.EditorFor(m => m.BirthDate, new { htmlAttributes = new { @class = "form-control", type = "date" } })
+            @Html.ValidationMessageFor(m => m.BirthDate, "", new { @class = "text-danger" })
+        </div>
+                
+                <div class="form-group col-md-6">
+                    <label class="control-label">الاسم الأول</label>
+                    <small class="text-danger ml-3">(اجباري للزائر او الخليجي)</small>
+                    @Html.EditorFor(m => m.FirstName, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(m => m.FirstName, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="form-group col-md-6">
+                    <label class="control-label">اسم الأب</label>
+                    <small class="text-danger ml-3">(اجباري للزائر او الخليجي)</small>
+                    @Html.EditorFor(m => m.FatherName, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(m => m.FatherName, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="form-group col-md-6">
+                    <label class="control-label">اسم الجد</label>
+                    <small class="text-danger ml-3">(اجباري للزائر او الخليجي)</small>
+                    @Html.EditorFor(m => m.GrandfatherName, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(m => m.GrandfatherName, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="form-group col-md-6">
+                    <label class="control-label">اسم العائلة</label>
+                    <small class="text-danger ml-3">(اجباري للزائر او الخليجي)</small>
+                    @Html.EditorFor(m => m.FamilyName, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(m => m.FamilyName, "", new { @class = "text-danger" })
+                </div>
+
+        @* <div class="form-group col-md-6">
+            <label class="control-label ">الاسم الكامل للزائر أو مواطن الخليج</label>
+                    <small class="text-danger ml-3">(اجباري للزائر او الخليجي)</small>
+
+            @Html.EditorFor(m => m.VisitorOrGulfFullName, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(m => m.VisitorOrGulfFullName, "", new { @class = "text-danger" })
+        </div> *@
+    </div>
+    
+    <div class="form-row">
+        <div class="form-group col-md-6">
+            <label class="control-label">رقم الحدود</label>
+                    <small class="text-danger ml-3">(اجباري للزائر او الخليجي)</small>
+
+            @Html.EditorFor(m => m.BorderNumber, new { htmlAttributes = new { @class = "form-control", data_conditional_required = "true", data_conditional_dependent_property = "#IdentityTypeId", data_conditional_required_values = IdentityType.GulfCitizen + "," + IdentityType.Visitor, data_conditional_message = "رقم الحدود أو رقم الهوية الخليجية اجباري." } })            @Html.ValidationMessageFor(m => m.BorderNumber, "", new { @class = "text-danger" })
+        </div>
+                <div class="form-group col-md-6">
+                    
+            <label class="control-label">الرقم الخليجي</label>
+                    <small class="text-danger ml-3">(اجباري للخليجي)</small>
+
+            @Html.EditorFor(m => m.GulfNumber, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(m => m.GulfNumber, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    
+    <div class="form-row">
+        <div class="form-group col-md-6">
+            <label class="control-label">رقم جواز السفر</label>
+                    <small class="text-danger ml-3">(اجباري للزائر)</small>
+
+            @Html.EditorFor(m => m.PassportNumber, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(m => m.PassportNumber, "", new { @class = "text-danger" })
+        </div>
+                <div class="form-group col-md-6">
+                    <label class="control-label">رقم التأشيرة</label>
+                    <small class="text-danger ml-3">(اجباري للزائر)</small>
+
+                    @Html.EditorFor(m => m.VisaNumber, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(m => m.VisaNumber, "", new { @class = "text-danger" })
+                </div>
+        <div class="form-group col-md-6">
+            <label class="control-label">رقم الهوية الوطنية</label>
+                    <small class="text-danger ml-3">(اجباري للمواطن)</small>
+
+
+            @Html.EditorFor(m => m.NationalID, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(m => m.NationalID, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    
+    <div class="form-row">
+        <div class="form-group col-md-6">
+            <label class="control-label">رقم الإقامة</label>
+                    <small class="text-danger ml-3">(اجباري للمقيم)</small>
+
+            @Html.EditorFor(m => m.IqamaNumber, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(m => m.IqamaNumber, "", new { @class = "text-danger" })
+        </div>
+        <div class="form-group col-md-6">
+            <label class="control-label required-field">رقم الجوال</label>
+            @Html.EditorFor(m => m.MobileNumber, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(m => m.MobileNumber, "", new { @class = "text-danger" })
+
+        </div>
+    </div>
+
+    <div class="form-row">
+        <div class="form-group col-md-12">
+            <label class="control-label required-field">البريد الإلكتروني</label>
+            @Html.EditorFor(m => m.Email, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+        </div>
+    </div>
+</div>
+</div>
+</div>
+<style>
+    .required-field::after {
+        content: " *";
+        color: red;
+    }
+</style>
